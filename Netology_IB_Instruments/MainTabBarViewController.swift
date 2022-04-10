@@ -9,8 +9,9 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
 
-    let firstVC = ProfileViewController()
-    let secondVC = SecondViewController()
+    let profileVC = ProfileViewController()
+    let feedVC = FeedViewController()
+    let postVC = PostViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,14 +21,17 @@ class MainTabBarViewController: UITabBarController {
     }
 
     private func setupControllers() {
-        firstVC.tabBarItem.title = "Первый"
-        secondVC.tabBarItem.title = "Второй"
+        profileVC.tabBarItem.title = "Профиль"
+        feedVC.tabBarItem.title = "Лента"
         
-        let navigationController = UINavigationController(rootViewController: secondVC)
+        let profileNavigationController = UINavigationController(rootViewController: profileVC)
+        let feedNavigationController = UINavigationController(rootViewController: feedVC)
         
-        firstVC.tabBarItem.image = UIImage(named: "icons8-вуди-вудпекер-48")
-        secondVC.tabBarItem.image = UIImage(named: "icons8-pennywise-48")
-        secondVC.navigationItem.title = "Второй VC"
-        viewControllers = [firstVC, navigationController]
+        profileVC.tabBarItem.image = UIImage(named: "icons8-вуди-вудпекер-48")
+        feedVC.tabBarItem.image = UIImage(named: "icons8-pennywise-48")
+        
+        feedVC.navigationItem.title = feedVC.tabBarItem.title
+        profileVC.navigationItem.title = profileVC.tabBarItem.title
+        viewControllers = [feedNavigationController, profileNavigationController]
     }
 }

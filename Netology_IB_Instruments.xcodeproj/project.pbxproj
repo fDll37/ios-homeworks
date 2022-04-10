@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E252ABF2803117600E1B107 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E252ABE2803117600E1B107 /* FeedViewController.swift */; };
+		0E252AC12803129100E1B107 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E252AC02803129100E1B107 /* PostViewController.swift */; };
+		0E252AC3280319EB00E1B107 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E252AC2280319EB00E1B107 /* InfoViewController.swift */; };
 		0E6CD6A82802E7A6000E1F7E /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6CD6A72802E7A6000E1F7E /* MainTabBarViewController.swift */; };
-		0E6CD6AA2802E7F8000E1F7E /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6CD6A92802E7F8000E1F7E /* SecondViewController.swift */; };
-		0E6CD6AC2802F3A3000E1F7E /* ThridViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6CD6AB2802F3A3000E1F7E /* ThridViewController.swift */; };
 		0EC0E4CC27F988A3005E3E09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0E4CB27F988A3005E3E09 /* AppDelegate.swift */; };
 		0EC0E4D527F988A4005E3E09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0EC0E4D427F988A4005E3E09 /* Assets.xcassets */; };
 		0EC0E4D827F988A4005E3E09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC0E4D627F988A4005E3E09 /* LaunchScreen.storyboard */; };
@@ -17,9 +18,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E252ABE2803117600E1B107 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
+		0E252AC02803129100E1B107 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		0E252AC2280319EB00E1B107 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		0E6CD6A72802E7A6000E1F7E /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
-		0E6CD6A92802E7F8000E1F7E /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
-		0E6CD6AB2802F3A3000E1F7E /* ThridViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThridViewController.swift; sourceTree = "<group>"; };
 		0EC0E4C827F988A3005E3E09 /* Netology_IB_Instruments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Netology_IB_Instruments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EC0E4CB27F988A3005E3E09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0EC0E4D427F988A4005E3E09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -59,10 +61,11 @@
 			isa = PBXGroup;
 			children = (
 				0EC0E4E527F98EBA005E3E09 /* ProfileViewController.swift */,
-				0E6CD6AB2802F3A3000E1F7E /* ThridViewController.swift */,
+				0E252ABE2803117600E1B107 /* FeedViewController.swift */,
+				0E252AC02803129100E1B107 /* PostViewController.swift */,
+				0E252AC2280319EB00E1B107 /* InfoViewController.swift */,
 				0EC0E4CB27F988A3005E3E09 /* AppDelegate.swift */,
 				0E6CD6A72802E7A6000E1F7E /* MainTabBarViewController.swift */,
-				0E6CD6A92802E7F8000E1F7E /* SecondViewController.swift */,
 				0EC0E4D427F988A4005E3E09 /* Assets.xcassets */,
 				0EC0E4D627F988A4005E3E09 /* LaunchScreen.storyboard */,
 				0EC0E4D927F988A4005E3E09 /* Info.plist */,
@@ -139,10 +142,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0E6CD6AA2802E7F8000E1F7E /* SecondViewController.swift in Sources */,
 				0E6CD6A82802E7A6000E1F7E /* MainTabBarViewController.swift in Sources */,
-				0E6CD6AC2802F3A3000E1F7E /* ThridViewController.swift in Sources */,
+				0E252AC12803129100E1B107 /* PostViewController.swift in Sources */,
 				0EC0E4E627F98EBA005E3E09 /* ProfileViewController.swift in Sources */,
+				0E252ABF2803117600E1B107 /* FeedViewController.swift in Sources */,
+				0E252AC3280319EB00E1B107 /* InfoViewController.swift in Sources */,
 				0EC0E4CC27F988A3005E3E09 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
