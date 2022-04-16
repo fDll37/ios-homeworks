@@ -16,8 +16,6 @@ class MainTabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupControllers()
-
-        // Do any additional setup after loading the view.
     }
 
     private func setupControllers() {
@@ -26,6 +24,7 @@ class MainTabBarViewController: UITabBarController {
         
         let profileNavigationController = UINavigationController(rootViewController: profileVC)
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
+        profileNavigationController.navigationBar.backgroundColor = .white
         
         profileVC.tabBarItem.image = UIImage(named: "icons8-вуди-вудпекер-48")
         feedVC.tabBarItem.image = UIImage(named: "icons8-pennywise-48")
