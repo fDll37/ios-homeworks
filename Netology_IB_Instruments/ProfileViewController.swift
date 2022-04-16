@@ -12,7 +12,7 @@ class ProfileViewController: UIViewController {
     let profileHeaderView = ProfileHeaderView()
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationController?.navigationBar.backgroundColor = .white
+//        navigationController?.navigationBar.backgroundColor = .white
         view.backgroundColor = .lightGray
         view.addSubview(profileHeaderView)
     }
