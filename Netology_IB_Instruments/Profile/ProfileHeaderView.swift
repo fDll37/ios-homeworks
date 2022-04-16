@@ -54,7 +54,7 @@ class ProfileHeaderView: UIView {
         button.titleLabel?.textColor = .white
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
         button.layer.shadowRadius = 4
-        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        button.addTarget(ProfileHeaderView.self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
     @objc private func buttonPressed() {
@@ -80,7 +80,7 @@ class ProfileHeaderView: UIView {
         textField.layer.borderColor = UIColor.black.cgColor
         textField.text = ""
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        textField.addTarget(ProfileHeaderView.self, action: #selector(statusTextChanged), for: .editingChanged)
         return textField
     }()
     @objc private func statusTextChanged() {
