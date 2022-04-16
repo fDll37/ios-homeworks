@@ -8,9 +8,9 @@
 import UIKit
 
 struct Post{
-    let title: String
+    let title: String?
     let image: UIImage?
-    let text: String
+    let text: String?
 }
 
 class FeedViewController: UIViewController {
