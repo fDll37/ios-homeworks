@@ -25,7 +25,7 @@ class FeedViewController: UIViewController {
     
    @objc private func tapFirstButtonViewPost(){
         let postVC = PostViewController()
-        postVC.navigationItem.title = post.title
+        postVC.navigationItem.title = firstPost.title
         navigationController?.pushViewController(postVC, animated: true)
     }
     
@@ -39,7 +39,7 @@ class FeedViewController: UIViewController {
     
    @objc private func tapSecondButtonViewPost(){
         let postVC = PostViewController()
-        postVC.navigationItem.title = post.title
+        postVC.navigationItem.title = secondPost.title
         navigationController?.pushViewController(postVC, animated: true)
     }
     
@@ -59,8 +59,8 @@ class FeedViewController: UIViewController {
         layoutStackView()
     }
     
-    let post = Post(title: "Название поста", image: UIImage(named: "A316DE42"), text: "текст внутри данного поста, очень длинный и важный")
-    
+    let firstPost = Post(title: "Название поста", image: UIImage(named: "A316DE42"), text: "текст внутри данного поста, очень длинный и важный")
+    let secondPost = Post(title: "Название поста 2", image: UIImage(named: "A316DE42"), text: "текст внутри данного поста, очень длинный и важный")
 
     private func layoutStackView(){
         
