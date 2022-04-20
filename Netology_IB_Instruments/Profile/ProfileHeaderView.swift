@@ -95,40 +95,33 @@ class ProfileHeaderView: UIView {
             avatarImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
             avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 100)
-        ])
-        
-        NSLayoutConstraint.activate([
+            avatarImageView.heightAnchor.constraint(equalToConstant: 100),
+            
             fullNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 9),
+            fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
+            fullNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             fullNameLabel.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            fullNameLabel.heightAnchor.constraint(equalToConstant: 22)
-        ])
-        
-        NSLayoutConstraint.activate([
+
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 27),
             statusLabel.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            statusLabel.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 10),
+            statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
+            statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            
+            statusTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
             statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            statusTextField.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
+            statusTextField.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
+            statusTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            statusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            
             setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
             setStatusButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             setStatusButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-            setStatusButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
+            setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            
             newButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            newButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            newButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            newButton.heightAnchor.constraint(equalToConstant: 50)
+            newButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,  constant: 16),
+            newButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,  constant: -16)
         ])
     }
     
