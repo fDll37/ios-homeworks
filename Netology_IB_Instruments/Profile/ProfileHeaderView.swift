@@ -100,23 +100,19 @@ class ProfileHeaderView: UIView {
             fullNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 9),
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
             fullNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            fullNameLabel.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
-
+           
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 27),
-            statusLabel.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
             statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
             statusTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
             statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            statusTextField.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             statusTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
             statusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
             
             setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
             setStatusButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             setStatusButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
-            setStatusButton.centerXAnchor.constraint(equalTo: self.safeAreaLayoutGuide.centerXAnchor),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
             
             newButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
