@@ -9,16 +9,24 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    let profileHeaderView = ProfileHeaderView()
+    private func layout(){
+        NSLayoutConstraint.activate([
+            profileHeaderView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            profileHeaderView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            profileHeaderView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            profileHeaderView.heightAnchor.constraint(equalToConstant: 220)
+        ])
+    }
+    private let profileHeaderView = ProfileHeaderView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        navigationController?.navigationBar.backgroundColor = .white
         view.backgroundColor = .lightGray
         view.addSubview(profileHeaderView)
     }
-    
     override func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         profileHeaderView.frame = view.safeAreaLayoutGuide.layoutFrame
+        layout()
     }
 }

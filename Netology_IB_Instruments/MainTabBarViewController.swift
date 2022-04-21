@@ -26,8 +26,8 @@ class MainTabBarViewController: UITabBarController {
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
         profileNavigationController.navigationBar.backgroundColor = .white
         
-        profileVC.tabBarItem.image = UIImage(named: "icons8-вуди-вудпекер-48")
-        feedVC.tabBarItem.image = UIImage(named: "icons8-pennywise-48")
+        profileVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
+        feedVC.tabBarItem.image = UIImage(systemName: "list.bullet")
         
         feedVC.navigationItem.title = feedVC.tabBarItem.title
         profileVC.navigationItem.title = profileVC.tabBarItem.title
