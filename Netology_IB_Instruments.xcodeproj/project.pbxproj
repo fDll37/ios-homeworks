@@ -16,6 +16,7 @@
 		0EC0E4D827F988A4005E3E09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0EC0E4D627F988A4005E3E09 /* LaunchScreen.storyboard */; };
 		0EC0E4E627F98EBA005E3E09 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC0E4E527F98EBA005E3E09 /* ProfileViewController.swift */; };
 		0EF3A75C280AF69D005314F7 /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A75B280AF69D005314F7 /* ProfileHeaderView.swift */; };
+		0EF3A7822816C1D0005314F7 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A7812816C1D0005314F7 /* LogInViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		0EC0E4D927F988A4005E3E09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0EC0E4E527F98EBA005E3E09 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = Netology_IB_Instruments/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		0EF3A75B280AF69D005314F7 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		0EF3A7812816C1D0005314F7 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				0EC0E4E527F98EBA005E3E09 /* ProfileViewController.swift */,
 				0EF3A75B280AF69D005314F7 /* ProfileHeaderView.swift */,
+				0EF3A7812816C1D0005314F7 /* LogInViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				0E252AC12803129100E1B107 /* PostViewController.swift in Sources */,
 				0EC0E4E627F98EBA005E3E09 /* ProfileViewController.swift in Sources */,
 				0E252ABF2803117600E1B107 /* FeedViewController.swift in Sources */,
+				0EF3A7822816C1D0005314F7 /* LogInViewController.swift in Sources */,
 				0EF3A75C280AF69D005314F7 /* ProfileHeaderView.swift in Sources */,
 				0E252AC3280319EB00E1B107 /* InfoViewController.swift in Sources */,
 				0EC0E4CC27F988A3005E3E09 /* AppDelegate.swift in Sources */,
