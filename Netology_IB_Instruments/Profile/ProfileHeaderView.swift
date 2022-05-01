@@ -70,6 +70,7 @@ class ProfileHeaderView: UIView {
     @objc private func buttonPressed() {
         statusLabel.text = statusText
         print(statusLabel.text ?? "")
+        endEditing(true)
     }
     
     override init(frame: CGRect) {
