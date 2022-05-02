@@ -17,6 +17,7 @@ class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier!)
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier!)
         return tableView
     }()
     
@@ -43,14 +44,27 @@ class ProfileViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        2
+    }
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return postModel.count
+        if section == 0 {
+            return 1
+        }
+        else{
+            return postModel.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier!, for: indexPath) as! CustomTableViewCell
-        cell.setupCell(postModel[indexPath.row])
-        return cell
+        if indexPath == [0,0]{
+            let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier!) as! PhotosTableViewCell
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier!) as! CustomTableViewCell
+            cell.setupCell(postModel[indexPath.row])
+            return cell
+        }
     }
 }
 // MARK: - UITableViewDelegate
@@ -59,14 +73,24 @@ extension ProfileViewController: UITableViewDelegate{
         UITableView.automaticDimension
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let profileHeaderView = ProfileHeaderView()
-        tableView.backgroundColor = .systemGray4
-        return profileHeaderView
+        if section == 0 {
+            let profileHeaderView = ProfileHeaderView()
+            tableView.backgroundColor = .systemGray4
+            return profileHeaderView
+        }
+        else{
+            return nil
+        }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailPost = DetailPostViewController()
-        detailPost.setupCell(postModel[indexPath.row])
-        navigationController?.pushViewController(detailPost, animated: true)
+        // #TODO switch
+        if indexPath == [0,0]{
+            print(#function)
+        } else {
+            let detailPost = DetailPostViewController()
+            detailPost.setupCell(postModel[indexPath.row])
+            navigationController?.pushViewController(detailPost, animated: true)
+        }
     }
     
 }
