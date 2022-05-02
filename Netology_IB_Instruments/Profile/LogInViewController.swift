@@ -37,7 +37,7 @@ class LogInViewController: UIViewController {
         logInTextField.layer.borderWidth = 0.5
         logInTextField.layer.cornerRadius = 10
         logInTextField.layer.backgroundColor = UIColor.systemGray6.cgColor
-        logInTextField.textColor = .black
+        logInTextField.textColor = .systemGray2
         logInTextField.text = "Email or phone"
         logInTextField.textAlignment = .left
         logInTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
@@ -55,12 +55,11 @@ class LogInViewController: UIViewController {
         passwordTextField.layer.borderWidth = 0.5
         passwordTextField.layer.cornerRadius = 10
         passwordTextField.layer.backgroundColor = UIColor.systemGray6.cgColor
-        passwordTextField.textColor = .black
+        passwordTextField.textColor = .systemGray2
         passwordTextField.text = "Password"
         passwordTextField.textAlignment = .left
         passwordTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         passwordTextField.autocapitalizationType = .none
-        passwordTextField.isSecureTextEntry = true
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: 10))
         passwordTextField.leftViewMode = .always
         passwordTextField.delegate = self
@@ -161,6 +160,17 @@ extension LogInViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true
+    }
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        if textField == passwordTextField {
+            passwordTextField.text = ""
+            passwordTextField.textColor = .black
+            passwordTextField.isSecureTextEntry = true
+        }
+        if textField == logInTextField {
+            logInTextField.text = ""
+            logInTextField.textColor = .black
+        }
     }
 }
 
