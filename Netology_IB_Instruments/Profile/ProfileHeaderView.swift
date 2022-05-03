@@ -70,20 +70,14 @@ class ProfileHeaderView: UIView {
     @objc private func buttonPressed() {
         statusLabel.text = statusText
         print(statusLabel.text ?? "")
+        endEditing(true)
     }
-    
-    private lazy var newButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .blue
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("New button", for: .normal)
-        return button
-    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [avatarImageView, fullNameLabel, statusLabel, statusTextField, setStatusButton, newButton].forEach{addSubview($0)}
+        [avatarImageView, fullNameLabel, statusLabel, statusTextField, setStatusButton].forEach{addSubview($0)}
         layout()
+        backgroundColor = .systemGray4
     }
     
     required init?(coder: NSCoder) {
@@ -91,33 +85,31 @@ class ProfileHeaderView: UIView {
     }
     
     private func layout(){
+        let constraint: CGFloat = 16
         NSLayoutConstraint.activate([
-            avatarImageView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
-            avatarImageView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            avatarImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            avatarImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
             avatarImageView.heightAnchor.constraint(equalToConstant: 100),
             
             fullNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 9),
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
-            fullNameLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            fullNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
            
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 27),
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
-            statusLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            statusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             
             statusTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
             statusTextField.heightAnchor.constraint(equalToConstant: 40),
-            statusTextField.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            statusTextField.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
+            statusTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             
             setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
-            setStatusButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            setStatusButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            setStatusButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
+            setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),
-            
-            newButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            newButton.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor,  constant: 16),
-            newButton.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor,  constant: -16)
+            setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -constraint)
         ])
     }
     
