@@ -83,14 +83,9 @@ extension ProfileViewController: UITableViewDelegate{
         }
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // #TODO switch
-        if indexPath == [0,0]{
-            print(#function)
-        } else {
-            let detailPost = DetailPostViewController()
-            detailPost.setupCell(postModel[indexPath.row])
-            navigationController?.pushViewController(detailPost, animated: true)
-        }
+        let detailPost = DetailPostViewController()
+        detailPost.setupCell(postModel[indexPath.row])
+        navigationController?.pushViewController(detailPost, animated: true)
     }
     
 }

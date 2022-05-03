@@ -9,6 +9,8 @@ import UIKit
 
 class PhotosTableViewCell: UITableViewCell {
     
+    private let collectionPhotos = PhotosModel.makeArrayPhotos()
+    
     private let imageCollectionView: UIView = {
         let imageCollectionView = UIView()
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,22 +29,25 @@ class PhotosTableViewCell: UITableViewCell {
     private let button: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .green
-//        button.setTitle("button", for: .normal)
         button.setImage(UIImage(named: "arrow"), for: .normal)
         button.addTarget(self, action: #selector(tapButtonViewPost), for: .touchUpInside)
         return button
     }()
     
     @objc private func tapButtonViewPost() {
+        let allPhotosVC = AllCollectionPhotosViewController()
+//        navigationController?.pushViewController(allPhotosVC, animated: true)
         print("tap tap")
     }
 
     private lazy var imageCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
         let imageCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        imageCollection.backgroundColor = .red
         imageCollection.translatesAutoresizingMaskIntoConstraints = false
+        imageCollection.delegate = self
+        imageCollection.dataSource = self
+        imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier!)
         return imageCollection
     }()
     
@@ -57,7 +62,7 @@ class PhotosTableViewCell: UITableViewCell {
     
     private func layout() {
         let labelInset: CGFloat = 12
-            [imageCollectionView, nameLabel, button, imageCollection].forEach{contentView.addSubview($0)}
+        [imageCollectionView, nameLabel, button, imageCollection].forEach{contentView.addSubview($0)}
         NSLayoutConstraint.activate([
             imageCollectionView.topAnchor.constraint(equalTo: contentView.topAnchor),
             imageCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -73,13 +78,51 @@ class PhotosTableViewCell: UITableViewCell {
             button.heightAnchor.constraint(equalToConstant: 20),
             button.widthAnchor.constraint(equalToConstant: 20),
             
-            
             imageCollection.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: labelInset),
             imageCollection.leadingAnchor.constraint(equalTo: imageCollectionView.leadingAnchor, constant: labelInset),
             imageCollection.trailingAnchor.constraint(equalTo: imageCollectionView.trailingAnchor, constant: -labelInset),
-//            imageCollection.heightAnchor.constraint(equalToConstant: 200),
+            imageCollection.heightAnchor.constraint(equalToConstant: 100),
             imageCollection.bottomAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: -labelInset)
         ])
         
     }
 }
+
+// MARK: - UICollectionViewDataSource
+extension PhotosTableViewCell: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        collectionPhotos.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier!, for: indexPath) as! PhotosCollectionViewCell
+        cell.setupCollectionCell(collectionPhotos[indexPath.item])
+        return cell
+    }
+    
+    
+}
+// MARK: - UICollectionViewDelegateFlowLayout
+extension PhotosTableViewCell: UICollectionViewDelegateFlowLayout {
+    
+    private var sideInset: CGFloat {return 8}
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let width = (collectionView.bounds.width - sideInset * 5) / 4
+        return CGSize(width: width, height: width)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        sideInset
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        UIEdgeInsets(top: sideInset, left: sideInset, bottom: sideInset, right: sideInset)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let AllPhotosVC = AllCollectionPhotosViewController()
+//        navigationController?.pushViewController(AllPhotosVC, animated: true)
+    }
+}
+
