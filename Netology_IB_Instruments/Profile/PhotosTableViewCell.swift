@@ -26,7 +26,9 @@ class PhotosTableViewCell: UITableViewCell {
     
     private let button: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .red
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .green
+//        button.setTitle("button", for: .normal)
         button.setImage(UIImage(named: "arrow"), for: .normal)
         button.addTarget(self, action: #selector(tapButtonViewPost), for: .touchUpInside)
         return button
@@ -64,15 +66,18 @@ class PhotosTableViewCell: UITableViewCell {
             
             nameLabel.topAnchor.constraint(equalTo: imageCollectionView.topAnchor, constant: labelInset),
             nameLabel.leadingAnchor.constraint(equalTo: imageCollectionView.leadingAnchor, constant: labelInset),
+            nameLabel.bottomAnchor.constraint(equalTo: imageCollection.topAnchor, constant: -labelInset),
             
             button.trailingAnchor.constraint(equalTo: imageCollectionView.trailingAnchor, constant: -labelInset),
             button.centerYAnchor.constraint(equalTo: nameLabel.centerYAnchor),
-            button.heightAnchor.constraint(equalToConstant: labelInset),
-            button.widthAnchor.constraint(equalToConstant: labelInset),
+            button.heightAnchor.constraint(equalToConstant: 20),
+            button.widthAnchor.constraint(equalToConstant: 20),
+            
             
             imageCollection.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: labelInset),
             imageCollection.leadingAnchor.constraint(equalTo: imageCollectionView.leadingAnchor, constant: labelInset),
             imageCollection.trailingAnchor.constraint(equalTo: imageCollectionView.trailingAnchor, constant: -labelInset),
+//            imageCollection.heightAnchor.constraint(equalToConstant: 200),
             imageCollection.bottomAnchor.constraint(equalTo: imageCollectionView.bottomAnchor, constant: -labelInset)
         ])
         

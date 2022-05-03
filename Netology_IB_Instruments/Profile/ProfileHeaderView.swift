@@ -62,6 +62,7 @@ class ProfileHeaderView: UIView {
     private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .blue
+        button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Set status", for: .normal)
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
