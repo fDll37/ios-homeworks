@@ -7,7 +7,14 @@
 
 import UIKit
 
+
+protocol PhotosTableViewCellDelegate: AnyObject{
+    func openViewAllCollection()
+}
+
 class PhotosTableViewCell: UITableViewCell {
+    
+    weak var delegate: PhotosTableViewCellDelegate?
     
     private let collectionPhotos = PhotosModel.makeArrayPhotos()
     
@@ -35,9 +42,10 @@ class PhotosTableViewCell: UITableViewCell {
     }()
     
     @objc private func tapButtonViewPost() {
-        let allPhotosVC = AllCollectionPhotosViewController()
+//        let allPhotosVC = AllCollectionPhotosViewController()
 //        navigationController?.pushViewController(allPhotosVC, animated: true)
         print("tap tap")
+        delegate?.openViewAllCollection()
     }
 
     private lazy var imageCollection: UICollectionView = {
@@ -121,7 +129,7 @@ extension PhotosTableViewCell: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let AllPhotosVC = AllCollectionPhotosViewController()
+//        let AllPhotosVC = AllCollectionPhotosViewController()
 //        navigationController?.pushViewController(AllPhotosVC, animated: true)
     }
 }

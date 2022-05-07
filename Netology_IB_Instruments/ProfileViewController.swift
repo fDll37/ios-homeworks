@@ -14,6 +14,7 @@ class ProfileViewController: UIViewController {
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.separatorInset = .zero
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier!)
@@ -59,6 +60,7 @@ extension ProfileViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath == [0,0]{
             let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier!) as! PhotosTableViewCell
+            cell.delegate = self
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier!) as! CustomTableViewCell
@@ -67,6 +69,16 @@ extension ProfileViewController: UITableViewDataSource {
         }
     }
 }
+// MARK: - PhotosTableViewCellDelegate
+extension ProfileViewController: PhotosTableViewCellDelegate {
+    func openViewAllCollection() {
+        let allPhotVC = AllCollectionPhotosViewController()
+        allPhotVC.collectionPhotos = PhotosModel.makeArrayPhotos()
+        navigationController?.pushViewController(allPhotVC, animated: true)
+    }
+}
+
+
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

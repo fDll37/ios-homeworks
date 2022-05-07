@@ -78,10 +78,9 @@
 		0EC0E4CA27F988A3005E3E09 /* Netology_IB_Instruments */ = {
 			isa = PBXGroup;
 			children = (
+				0EF3A79428268417005314F7 /* Post(Feed) */,
+				0EF3A793282682D1005314F7 /* Collection */,
 				0EF3A75A280AF677005314F7 /* Profile */,
-				0E252ABE2803117600E1B107 /* FeedViewController.swift */,
-				0E252AC02803129100E1B107 /* PostViewController.swift */,
-				0E252AC2280319EB00E1B107 /* InfoViewController.swift */,
 				0EC0E4CB27F988A3005E3E09 /* AppDelegate.swift */,
 				0E6CD6A72802E7A6000E1F7E /* MainTabBarViewController.swift */,
 				0EC0E4D427F988A4005E3E09 /* Assets.xcassets */,
@@ -94,18 +93,35 @@
 		0EF3A75A280AF677005314F7 /* Profile */ = {
 			isa = PBXGroup;
 			children = (
-				0EF3A78D282128E5005314F7 /* PhotosCollectionViewCell.swift */,
 				0EC0E4E527F98EBA005E3E09 /* ProfileViewController.swift */,
 				0EF3A787281D3D54005314F7 /* CustomTableViewCell.swift */,
-				0EF3A78B281FDC53005314F7 /* PhotosTableViewCell.swift */,
-				0EF3A79128214053005314F7 /* AllCollectionPhotosViewController.swift */,
 				0EF3A75B280AF69D005314F7 /* ProfileHeaderView.swift */,
 				0EF3A7812816C1D0005314F7 /* LogInViewController.swift */,
 				0EF3A785281D3A74005314F7 /* PostModel.swift */,
-				0EF3A78F2821312E005314F7 /* CollectionPhotosModel.swift */,
 				0EF3A789281E9E3D005314F7 /* DetailPostViewController.swift */,
 			);
 			path = Profile;
+			sourceTree = "<group>";
+		};
+		0EF3A793282682D1005314F7 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				0EF3A78D282128E5005314F7 /* PhotosCollectionViewCell.swift */,
+				0EF3A79128214053005314F7 /* AllCollectionPhotosViewController.swift */,
+				0EF3A78B281FDC53005314F7 /* PhotosTableViewCell.swift */,
+				0EF3A78F2821312E005314F7 /* CollectionPhotosModel.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		0EF3A79428268417005314F7 /* Post(Feed) */ = {
+			isa = PBXGroup;
+			children = (
+				0E252ABE2803117600E1B107 /* FeedViewController.swift */,
+				0E252AC02803129100E1B107 /* PostViewController.swift */,
+				0E252AC2280319EB00E1B107 /* InfoViewController.swift */,
+			);
+			path = "Post(Feed)";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

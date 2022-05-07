@@ -9,11 +9,11 @@ import UIKit
 
 class AllCollectionPhotosViewController: UIViewController {
     
-    private let collectionPhotos = PhotosModel.makeArrayPhotos()
+    var collectionPhotos = PhotosModel.makeArrayPhotos()
     
     private lazy var imageCollection: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let imageCollection = UICollectionView(frame: .zero, collectionViewLayout: layout)
         imageCollection.translatesAutoresizingMaskIntoConstraints = false
         imageCollection.delegate = self
@@ -24,16 +24,18 @@ class AllCollectionPhotosViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Photo Gallery"
+        navigationController?.navigationBar.isHidden = false
         layout()
     }
     
     private func layout(){
         view.addSubview(imageCollection)
         NSLayoutConstraint.activate([
-            imageCollection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            imageCollection.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            imageCollection.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            imageCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            imageCollection.topAnchor.constraint(equalTo: view.topAnchor),
+            imageCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            imageCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            imageCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
 }
@@ -45,6 +47,7 @@ extension AllCollectionPhotosViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier!, for: indexPath) as! PhotosCollectionViewCell
+        cell.setupCollectionCell(collectionPhotos[indexPath.item])
         return cell
     }
     
