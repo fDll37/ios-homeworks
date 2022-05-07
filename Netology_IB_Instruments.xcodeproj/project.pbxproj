@@ -20,10 +20,7 @@
 		0EF3A786281D3A74005314F7 /* PostModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A785281D3A74005314F7 /* PostModel.swift */; };
 		0EF3A788281D3D54005314F7 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A787281D3D54005314F7 /* CustomTableViewCell.swift */; };
 		0EF3A78A281E9E3D005314F7 /* DetailPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A789281E9E3D005314F7 /* DetailPostViewController.swift */; };
-		0EF3A78C281FDC53005314F7 /* PhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A78B281FDC53005314F7 /* PhotosTableViewCell.swift */; };
-		0EF3A78E282128E5005314F7 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A78D282128E5005314F7 /* PhotosCollectionViewCell.swift */; };
-		0EF3A7902821312E005314F7 /* CollectionPhotosModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A78F2821312E005314F7 /* CollectionPhotosModel.swift */; };
-		0EF3A79228214053005314F7 /* AllCollectionPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF3A79128214053005314F7 /* AllCollectionPhotosViewController.swift */; };
+
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,10 +39,7 @@
 		0EF3A785281D3A74005314F7 /* PostModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostModel.swift; sourceTree = "<group>"; };
 		0EF3A787281D3D54005314F7 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		0EF3A789281E9E3D005314F7 /* DetailPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPostViewController.swift; sourceTree = "<group>"; };
-		0EF3A78B281FDC53005314F7 /* PhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosTableViewCell.swift; sourceTree = "<group>"; };
-		0EF3A78D282128E5005314F7 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
-		0EF3A78F2821312E005314F7 /* CollectionPhotosModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPhotosModel.swift; sourceTree = "<group>"; };
-		0EF3A79128214053005314F7 /* AllCollectionPhotosViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllCollectionPhotosViewController.swift; sourceTree = "<group>"; };
+
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,13 +194,11 @@
 				0EF3A78E282128E5005314F7 /* PhotosCollectionViewCell.swift in Sources */,
 				0E252ABF2803117600E1B107 /* FeedViewController.swift in Sources */,
 				0EF3A786281D3A74005314F7 /* PostModel.swift in Sources */,
-				0EF3A79228214053005314F7 /* AllCollectionPhotosViewController.swift in Sources */,
 				0EF3A7822816C1D0005314F7 /* LogInViewController.swift in Sources */,
 				0EF3A788281D3D54005314F7 /* CustomTableViewCell.swift in Sources */,
 				0EF3A75C280AF69D005314F7 /* ProfileHeaderView.swift in Sources */,
 				0E252AC3280319EB00E1B107 /* InfoViewController.swift in Sources */,
 				0EF3A78A281E9E3D005314F7 /* DetailPostViewController.swift in Sources */,
-				0EF3A7902821312E005314F7 /* CollectionPhotosModel.swift in Sources */,
 				0EC0E4CC27F988A3005E3E09 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

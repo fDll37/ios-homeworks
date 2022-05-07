@@ -77,8 +77,6 @@ extension ProfileViewController: PhotosTableViewCellDelegate {
         navigationController?.pushViewController(allPhotVC, animated: true)
     }
 }
-
-
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
