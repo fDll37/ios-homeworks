@@ -24,9 +24,7 @@ class MainTabBarViewController: UITabBarController {
         loginVC.tabBarItem.title = "Log In"
         
         let loginNavigationController = UINavigationController(rootViewController: loginVC)
-        //let profileNavigationController = UINavigationController(rootViewController: profileVC)
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
-       // profileNavigationController.navigationBar.backgroundColor = .white
         
         profileVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
         feedVC.tabBarItem.image = UIImage(systemName: "list.bullet")
@@ -37,7 +35,6 @@ class MainTabBarViewController: UITabBarController {
         loginVC.navigationItem.title = loginVC.tabBarItem.title
         
         loginVC.navigationController?.navigationBar.isHidden = true
-//        profileVC.navigationController?.navigationBar.isHidden = false
         viewControllers = [feedNavigationController, loginNavigationController]
     }
 }

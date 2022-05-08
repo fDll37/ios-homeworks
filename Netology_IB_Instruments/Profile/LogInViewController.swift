@@ -38,7 +38,7 @@ class LogInViewController: UIViewController {
         logInTextField.layer.cornerRadius = 10
         logInTextField.layer.backgroundColor = UIColor.systemGray6.cgColor
         logInTextField.textColor = .systemGray2
-        logInTextField.text = "Email or phone"
+        logInTextField.placeholder = "Email or phone"
         logInTextField.textAlignment = .left
         logInTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         logInTextField.autocapitalizationType = .none
@@ -56,12 +56,13 @@ class LogInViewController: UIViewController {
         passwordTextField.layer.cornerRadius = 10
         passwordTextField.layer.backgroundColor = UIColor.systemGray6.cgColor
         passwordTextField.textColor = .systemGray2
-        passwordTextField.text = "Password"
         passwordTextField.textAlignment = .left
         passwordTextField.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         passwordTextField.autocapitalizationType = .none
         passwordTextField.leftView = UIView(frame: CGRect(x: 0, y: 10, width: 10, height: 10))
         passwordTextField.leftViewMode = .always
+        passwordTextField.placeholder = "Password"
+        passwordTextField.isSecureTextEntry = true
         passwordTextField.delegate = self
         return passwordTextField
     }()
@@ -83,6 +84,7 @@ class LogInViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         layout()
+        hideKeyboardWhenTappedAround()
         view.backgroundColor = .white
     }
     
@@ -100,15 +102,22 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func kbdShow(notification: NSNotification) {
-        if let kbdSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            scrollView.contentInset.bottom = kbdSize.height
-            scrollView.verticalScrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: kbdSize.height, right: 0)
-        }
+        let info = notification.userInfo!
+        guard let rect: CGRect = info[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect else {return}
+        let kbSize = rect.size
+        let offSet: CGFloat = 10
+
+        let insets = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
+        scrollView.contentInset = insets
+        scrollView.scrollIndicatorInsets = insets
+
+        let scrollPoint = CGPoint(x: 0, y: logInButton.frame.origin.y - kbSize.height + offSet)
+        scrollView.setContentOffset(scrollPoint, animated: true)
     }
     
     @objc private func kbdHide() {
-        scrollView.contentInset = .zero
-        scrollView.verticalScrollIndicatorInsets = .zero
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
     }
     
     private func layout(){
@@ -158,20 +167,31 @@ class LogInViewController: UIViewController {
 // MARK: - UITextFieldDelegate
 
 extension LogInViewController: UITextFieldDelegate {
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
         return true
     }
+    
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField == passwordTextField {
-            passwordTextField.text = ""
             passwordTextField.textColor = .black
-            passwordTextField.isSecureTextEntry = true
         }
+        
         if textField == logInTextField {
-            logInTextField.text = ""
             logInTextField.textColor = .black
         }
+        
+    }
+    
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 

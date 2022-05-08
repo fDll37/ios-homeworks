@@ -17,8 +17,8 @@ class ProfileViewController: UIViewController {
         tableView.separatorInset = .zero
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier!)
-        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier!)
+        tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return tableView
     }()
     
@@ -106,30 +106,32 @@ class ProfileViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
+    
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 1
-        }
-        return postModel.count
+        section == 0 ? 1 : postModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath == [0,0]{
-            let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier!) as! PhotosTableViewCell
+        if indexPath.section == 0 {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: PhotosTableViewCell.identifier) as? PhotosTableViewCell else {return UITableViewCell()}
             cell.delegate = self
-            return cell
-        } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier!) as! CustomTableViewCell
-            cell.setupCell(postModel[indexPath.row])
+            cell.selectionStyle = .none
             return cell
         }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier) as? CustomTableViewCell else {return UITableViewCell()}
+        cell.setupCell(postModel[indexPath.row])
+        cell.selectionStyle = .none
+        return cell
     }
 }
 // MARK: - PhotosTableViewCellDelegate
 extension ProfileViewController: PhotosTableViewCellDelegate {
+    
     func openViewAllCollection() {
         let allPhotVC = AllCollectionPhotosViewController()
         allPhotVC.collectionPhotos = PhotosModel.makeArrayPhotos()
@@ -138,30 +140,42 @@ extension ProfileViewController: PhotosTableViewCellDelegate {
 }
 // MARK: - UITableViewDelegate
 extension ProfileViewController: UITableViewDelegate{
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if section == 0 {
             let profileHeaderView = ProfileHeaderView()
             tableView.backgroundColor = .systemGray4
             return profileHeaderView
         }
-        else{
-            return nil
-        }
+        
+        return nil
+        
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailPost = DetailPostViewController()
-        detailPost.setupCell(postModel[indexPath.row])
-        navigationController?.pushViewController(detailPost, animated: true)
+        
+        if indexPath.section == 0 {
+            let allPhotosView = AllCollectionPhotosViewController()
+            allPhotosView.collectionPhotos = PhotosModel.makeArrayPhotos()
+            navigationController?.pushViewController(allPhotosView, animated: true)
+        }
+        
+        else{
+            let detailPost = DetailPostViewController()
+            detailPost.setupCell(postModel[indexPath.row])
+            navigationController?.pushViewController(detailPost, animated: true)
+        }
+        
     }
     
 }
 
-// MARK: - UIView
+// MARK: - UIView 
 extension UIView {
-    static var identifier: String? {
+    static var identifier: String {
         return String(describing: self)
     }
 }
