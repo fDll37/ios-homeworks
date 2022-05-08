@@ -18,7 +18,7 @@ class AllCollectionPhotosViewController: UIViewController {
         imageCollection.translatesAutoresizingMaskIntoConstraints = false
         imageCollection.delegate = self
         imageCollection.dataSource = self
-        imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier!)
+        imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier)
         return imageCollection
     }()
     
@@ -46,7 +46,7 @@ extension AllCollectionPhotosViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier!, for: indexPath) as! PhotosCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as? PhotosCollectionViewCell else {return UICollectionViewCell()}
         cell.setupCollectionCell(collectionPhotos[indexPath.item])
         return cell
     }

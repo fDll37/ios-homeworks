@@ -42,9 +42,6 @@ class PhotosTableViewCell: UITableViewCell {
     }()
     
     @objc private func tapButtonViewPost() {
-//        let allPhotosVC = AllCollectionPhotosViewController()
-//        navigationController?.pushViewController(allPhotosVC, animated: true)
-        print("tap tap")
         delegate?.openViewAllCollection()
     }
 
@@ -55,7 +52,7 @@ class PhotosTableViewCell: UITableViewCell {
         imageCollection.translatesAutoresizingMaskIntoConstraints = false
         imageCollection.delegate = self
         imageCollection.dataSource = self
-        imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier!)
+        imageCollection.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: PhotosCollectionViewCell.identifier)
         return imageCollection
     }()
     
@@ -103,7 +100,7 @@ extension PhotosTableViewCell: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier!, for: indexPath) as! PhotosCollectionViewCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotosCollectionViewCell.identifier, for: indexPath) as? PhotosCollectionViewCell else {return UICollectionViewCell()}
         cell.setupCollectionCell(collectionPhotos[indexPath.item])
         return cell
     }

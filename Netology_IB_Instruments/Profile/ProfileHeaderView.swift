@@ -59,7 +59,7 @@ class ProfileHeaderView: UIView {
         statusText = statusTextField.text ?? ""
     }
     
-    private lazy var setStatusButton: UIButton = {
+    private let setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .blue
         button.layer.cornerRadius = 10

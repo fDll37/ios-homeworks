@@ -23,15 +23,19 @@ class InfoViewController: UIViewController {
         button.addTarget(self, action: #selector(tapAction), for: .touchUpInside)
         view.addSubview(button)
     }
+    
     @objc private func tapAction(){
         let alert = UIAlertController(title: "Перейти назад", message: "Вы точно хотите выйти?", preferredStyle: .alert)
+        
         let okAction = UIAlertAction(title: "Выйти", style: .default) { _ in
             print("Выход из окна информация")
             self.navigationController?.popViewController(animated: true)
         }
+        
         let cancelAction = UIAlertAction(title: "Отмена", style: .destructive) { _ in
             print("отмена выхода из просмотра информации")
         }
+        
         alert.addAction(cancelAction)
         alert.addAction(okAction)
         present(alert, animated: true)
