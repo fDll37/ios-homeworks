@@ -11,7 +11,27 @@ class ProfileHeaderView: UIView {
    
     private lazy var statusText: String? = statusTextField.text
     
-     let avatarImageView: UIImageView = {
+    private lazy var blackView: UIView = {
+        let blackView = UIView()
+        blackView.translatesAutoresizingMaskIntoConstraints = false
+        blackView.alpha = 0
+        blackView.backgroundColor = .black
+        blackView.frame = UIScreen.main.bounds
+        return blackView
+    }()
+    
+    private lazy var crossButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.alpha = 0.0
+        button.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
+        button.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "75F4BB39"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 50
@@ -21,7 +41,7 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
     
-    private let fullNameLabel: UILabel = {
+    private lazy var fullNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Имя Профиля"
@@ -31,7 +51,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private let statusLabel: UILabel = {
+    private lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
@@ -41,7 +61,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
     
-    private let statusTextField: UITextField = {
+    private lazy var statusTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.layer.borderColor = UIColor.black.cgColor
@@ -49,17 +69,17 @@ class ProfileHeaderView: UIView {
         textField.layer.cornerRadius = 12
         textField.layer.backgroundColor = UIColor.white.cgColor
         textField.textColor = .black
-        textField.text = "Put in your new status"
+        textField.placeholder = "Put in your new status"
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         return textField
     }()
     @objc private func statusTextChanged() {
-        statusText = statusTextField.text ?? ""
+        statusText = statusTextField.text ?? "New text status"
     }
     
-    private let setStatusButton: UIButton = {
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .blue
         button.layer.cornerRadius = 10
@@ -77,6 +97,7 @@ class ProfileHeaderView: UIView {
         super.init(frame: frame)
         [avatarImageView, fullNameLabel, statusLabel, statusTextField, setStatusButton].forEach{addSubview($0)}
         layout()
+        setupGestures()
         backgroundColor = .systemGray4
     }
     
@@ -84,9 +105,25 @@ class ProfileHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var avatarWight = NSLayoutConstraint()
+    private var avatarHeight = NSLayoutConstraint()
+    private var avatarX = NSLayoutConstraint()
+    private var avatarY = NSLayoutConstraint()
+                                
+                                
     private func layout(){
         let constraint: CGFloat = 16
+        avatarX = avatarImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
+        avatarY = avatarImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
+        avatarWight = avatarImageView.widthAnchor.constraint(equalToConstant: 100)
+        avatarHeight = avatarImageView.heightAnchor.constraint(equalToConstant: 100)
+        
         NSLayoutConstraint.activate([
+//            avatarX,
+//            avatarY,
+//            avatarWight,
+//            avatarHeight,
+
             avatarImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             avatarImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
             avatarImageView.widthAnchor.constraint(equalToConstant: 100),
@@ -100,7 +137,7 @@ class ProfileHeaderView: UIView {
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
             statusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             
-            statusTextField.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 10),
+            statusTextField.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 30),
             statusTextField.heightAnchor.constraint(equalToConstant: 40),
             statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
             statusTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
@@ -112,5 +149,60 @@ class ProfileHeaderView: UIView {
             setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -constraint)
         ])
     }
+    
+    
+    @objc private func cancelAction() {
+         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [self] in
+             crossButton.alpha = 0.0
+         } completion: { _ in
+             UIView.animate(withDuration: 0.5) { [self] in
+                 
+                 blackView.alpha = 0.0
+                 avatarImageView.layer.cornerRadius = 50
+                 avatarX.constant = 66
+                 avatarY.constant = 66
+                 avatarWight.constant = 100
+                 avatarHeight.constant = 100
+                 
+                 layoutIfNeeded()
+             }
+         }
+     }
+     
+     private func setupGestures() {
+         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+         avatarImageView.isUserInteractionEnabled = true
+         avatarImageView.addGestureRecognizer(tapGesture)
+         addSubview(blackView)
+     }
+     
+     @objc private func tapAction() {
+         
+         addSubview(crossButton)
+         bringSubviewToFront(avatarImageView)
+         
+         NSLayoutConstraint.activate([
+            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            crossButton.topAnchor.constraint(equalTo: topAnchor)
+         ])
+         
+         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
+             
+             blackView.alpha = 0.85
+             avatarImageView.layer.cornerRadius = 0
+             avatarX.constant = UIScreen.main.bounds.width / 2
+             avatarY.constant = UIScreen.main.bounds.height / 2
+             avatarWight.constant = UIScreen.main.bounds.width
+             avatarHeight.constant = UIScreen.main.bounds.width
+             layoutIfNeeded()
+             
+         } completion: { _ in
+             UIView.animate(withDuration: 0.3) { [self] in
+                 crossButton.alpha = 1.0
+             }
+         }
+     }
+    
+    
     
 }

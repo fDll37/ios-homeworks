@@ -9,14 +9,14 @@ import UIKit
 
 class CustomTableViewCell: UITableViewCell {
 
-    private let postView: UIView = {
+    private lazy var postView: UIView = {
         let postView = UIView()
         postView.translatesAutoresizingMaskIntoConstraints = false
         postView.backgroundColor = .white
         return postView
     }()
     
-    private let postNameLabel: UILabel = {
+    private lazy var postNameLabel: UILabel = {
         let postLabel = UILabel()
         postLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         postLabel.textColor = .black
@@ -25,7 +25,7 @@ class CustomTableViewCell: UITableViewCell {
         return postLabel
     }()
     
-    private let postImage: UIImageView = {
+    private lazy var postImage: UIImageView = {
         let postImage = UIImageView()
         postImage.translatesAutoresizingMaskIntoConstraints = false
         postImage.backgroundColor = .black
@@ -33,7 +33,7 @@ class CustomTableViewCell: UITableViewCell {
         return postImage
     }()
     
-    private let postDescriptionLabel: UILabel = {
+    private lazy var postDescriptionLabel: UILabel = {
         let postDescriptionLabel = UILabel()
         postDescriptionLabel.numberOfLines = 2
         postDescriptionLabel.textColor = UIColor.gray
@@ -41,7 +41,7 @@ class CustomTableViewCell: UITableViewCell {
         return postDescriptionLabel
     }()
 
-    private let postLikesLabel: UILabel = {
+    private lazy var postLikesLabel: UILabel = {
         let postLikesLabel = UILabel()
         postLikesLabel.translatesAutoresizingMaskIntoConstraints = false
         postLikesLabel.font = UIFont.systemFont(ofSize: 16)
@@ -50,7 +50,7 @@ class CustomTableViewCell: UITableViewCell {
         return postLikesLabel
     }()
     
-    private let postLikesCounterLabel: UILabel = {
+    private lazy var postLikesCounterLabel: UILabel = {
         let postLikesCounterLabel = UILabel()
         postLikesCounterLabel.textColor = .black
         postLikesCounterLabel.font = UIFont.systemFont(ofSize: 16)
@@ -58,7 +58,7 @@ class CustomTableViewCell: UITableViewCell {
         return postLikesCounterLabel
     }()
     
-    private let postViewLabel: UILabel = {
+    private lazy var postViewLabel: UILabel = {
         let postViewLabel = UILabel()
         postViewLabel.text = "Views: "
         postViewLabel.textColor = .black
@@ -67,7 +67,7 @@ class CustomTableViewCell: UITableViewCell {
         return postViewLabel
     }()
     
-    private let postViewCounterLabel: UILabel = {
+    private lazy var postViewCounterLabel: UILabel = {
         let postViewCounterLabel = UILabel()
         postViewCounterLabel.textColor = .black
         postViewCounterLabel.font = UIFont.systemFont(ofSize: 16)

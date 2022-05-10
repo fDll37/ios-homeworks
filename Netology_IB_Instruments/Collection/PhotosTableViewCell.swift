@@ -18,13 +18,13 @@ class PhotosTableViewCell: UITableViewCell {
     
     private let collectionPhotos = PhotosModel.makeArrayPhotos()
     
-    private let imageCollectionView: UIView = {
+    private lazy var imageCollectionView: UIView = {
         let imageCollectionView = UIView()
         imageCollectionView.translatesAutoresizingMaskIntoConstraints = false
         return imageCollectionView
     }()
     
-    private let nameLabel: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let nameLabel = UILabel()
         nameLabel.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         nameLabel.textColor = .black
@@ -33,7 +33,7 @@ class PhotosTableViewCell: UITableViewCell {
         return nameLabel
     }()
     
-    private let button: UIButton = {
+    private lazy var button: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "arrow"), for: .normal)
