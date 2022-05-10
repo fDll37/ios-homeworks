@@ -8,7 +8,7 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-   
+    
     private lazy var statusText: String? = statusTextField.text
     
     private lazy var blackView: UIView = {
@@ -26,7 +26,6 @@ class ProfileHeaderView: UIView {
         button.backgroundColor = .white
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.alpha = 0.0
-        button.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
         button.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         return button
     }()
@@ -79,7 +78,7 @@ class ProfileHeaderView: UIView {
         statusText = statusTextField.text ?? "New text status"
     }
     
-    private let setStatusButton: UIButton = {
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .blue
         button.layer.cornerRadius = 10
@@ -107,32 +106,27 @@ class ProfileHeaderView: UIView {
     
     private var avatarWight = NSLayoutConstraint()
     private var avatarHeight = NSLayoutConstraint()
-    private var avatarX = NSLayoutConstraint()
-    private var avatarY = NSLayoutConstraint()
-                                
-                                
+    private var avatarTop = NSLayoutConstraint()
+    private var avatarLeading = NSLayoutConstraint()
+    
+    
     private func layout(){
         let constraint: CGFloat = 16
-        avatarX = avatarImageView.centerXAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor)
-        avatarY = avatarImageView.centerYAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
+        avatarTop = avatarImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor)
+        avatarLeading = avatarImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint)
         avatarWight = avatarImageView.widthAnchor.constraint(equalToConstant: 100)
         avatarHeight = avatarImageView.heightAnchor.constraint(equalToConstant: 100)
         
         NSLayoutConstraint.activate([
-//            avatarX,
-//            avatarY,
-//            avatarWight,
-//            avatarHeight,
-
-            avatarImageView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            avatarImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
-            avatarImageView.widthAnchor.constraint(equalToConstant: 100),
-            avatarImageView.heightAnchor.constraint(equalToConstant: 100),
+            avatarTop,
+            avatarLeading,
+            avatarWight,
+            avatarHeight,
             
             fullNameLabel.topAnchor.constraint(equalTo: avatarImageView.topAnchor, constant: 9),
             fullNameLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
             fullNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
-           
+            
             statusLabel.topAnchor.constraint(equalTo: fullNameLabel.bottomAnchor, constant: 27),
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor),
             statusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
@@ -151,58 +145,60 @@ class ProfileHeaderView: UIView {
     }
     
     
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
+        avatarImageView.isUserInteractionEnabled = true
+        avatarImageView.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc private func tapAction() {
+        addSubview(blackView)
+        addSubview(crossButton)
+        bringSubviewToFront(avatarImageView)
+        
+        NSLayoutConstraint.activate([
+            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            crossButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            crossButton.widthAnchor.constraint(equalToConstant: 30),
+            crossButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
+            blackView.alpha = 0.85
+            avatarImageView.layer.cornerRadius = 0
+            avatarTop.constant = UIScreen.main.bounds.midX
+            avatarLeading.constant = 16
+            avatarWight.constant = UIScreen.main.bounds.width
+            avatarHeight.constant = UIScreen.main.bounds.width
+            layoutIfNeeded()
+            
+        } completion: { _ in
+            UIView.animate(withDuration: 0.3) { [self] in
+                crossButton.alpha = 1.0
+            }
+        }
+    }
+    
     @objc private func cancelAction() {
-         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [self] in
-             crossButton.alpha = 0.0
-         } completion: { _ in
-             UIView.animate(withDuration: 0.5) { [self] in
-                 
-                 blackView.alpha = 0.0
-                 avatarImageView.layer.cornerRadius = 50
-                 avatarX.constant = 66
-                 avatarY.constant = 66
-                 avatarWight.constant = 100
-                 avatarHeight.constant = 100
-                 
-                 layoutIfNeeded()
-             }
-         }
-     }
-     
-     private func setupGestures() {
-         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-         avatarImageView.isUserInteractionEnabled = true
-         avatarImageView.addGestureRecognizer(tapGesture)
-         addSubview(blackView)
-     }
-     
-     @objc private func tapAction() {
-         
-         addSubview(crossButton)
-         bringSubviewToFront(avatarImageView)
-         
-         NSLayoutConstraint.activate([
-            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            crossButton.topAnchor.constraint(equalTo: topAnchor)
-         ])
-         
-         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
-             
-             blackView.alpha = 0.85
-             avatarImageView.layer.cornerRadius = 0
-             avatarX.constant = UIScreen.main.bounds.width / 2
-             avatarY.constant = UIScreen.main.bounds.height / 2
-             avatarWight.constant = UIScreen.main.bounds.width
-             avatarHeight.constant = UIScreen.main.bounds.width
-             layoutIfNeeded()
-             
-         } completion: { _ in
-             UIView.animate(withDuration: 0.3) { [self] in
-                 crossButton.alpha = 1.0
-             }
-         }
-     }
-    
-    
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [self] in
+            crossButton.alpha = 0.0
+            crossButton.removeFromSuperview()
+        } completion: { _ in
+            UIView.animate(withDuration: 0.5) { [self] in
+                
+                sendSubviewToBack(avatarImageView)
+                avatarImageView.layer.cornerRadius = 50
+                avatarTop.constant = 0
+                avatarLeading.constant = 16
+                avatarWight.constant = 100
+                avatarHeight.constant = 100
+                blackView.alpha = 0.0
+                blackView.removeFromSuperview()
+                
+                layoutIfNeeded()
+            }
+        }
+    }
     
 }

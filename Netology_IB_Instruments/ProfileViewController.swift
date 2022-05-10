@@ -43,9 +43,6 @@ class ProfileViewController: UIViewController {
     private var topAvatarImage = NSLayoutConstraint()
     private var widthAvatarImage = NSLayoutConstraint()
     
-    private var leadingAvatarImage = NSLayoutConstraint()
-    private var topAvatarImage = NSLayoutConstraint()
-    private var widthAvatarImage = NSLayoutConstraint()
     
     private func layout(){
         view.addSubview(tableView)
