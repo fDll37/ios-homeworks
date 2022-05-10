@@ -4,7 +4,7 @@
 //
 //  Created by Данил Менделев on 03.04.2022.
 //
-
+ 
 import UIKit
 
 class ProfileViewController: UIViewController {
@@ -100,6 +100,7 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         layout()
+//        setupGestures()
         navigationController?.navigationBar.isHidden = true
     }
 }

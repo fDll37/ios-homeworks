@@ -102,22 +102,21 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func kbdShow(notification: NSNotification) {
-        let info = notification.userInfo!
-        guard let rect: CGRect = info[UIResponder.keyboardFrameBeginUserInfoKey] as? CGRect else {return}
-        let kbSize = rect.size
-        let offSet: CGFloat = 10
-
-        let insets = UIEdgeInsets(top: 0, left: 0, bottom: kbSize.height, right: 0)
-        scrollView.contentInset = insets
-        scrollView.scrollIndicatorInsets = insets
-
-        let scrollPoint = CGPoint(x: 0, y: logInButton.frame.origin.y - kbSize.height + offSet)
-        scrollView.setContentOffset(scrollPoint, animated: true)
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue {
+            let keyboardRect = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRect.height
+            
+            let loginButtonBottomPointY = self.logInButton.frame.origin.y + 16
+            let keyboardOriginY = self.view.frame.height - keyboardHeight
+            
+            let yOffset = keyboardOriginY < loginButtonBottomPointY ? loginButtonBottomPointY - keyboardOriginY + 16 : 0
+            
+            self.scrollView.contentOffset = CGPoint(x: 0, y: yOffset)
+        }
     }
     
     @objc private func kbdHide() {
-        scrollView.contentInset = UIEdgeInsets.zero
-        scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+        self.scrollView.contentOffset = .zero
     }
     
     private func layout(){
