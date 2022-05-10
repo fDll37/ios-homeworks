@@ -22,23 +22,6 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var blackView: UIView = {
-        let blackView = UIView()
-        blackView.translatesAutoresizingMaskIntoConstraints = false
-        blackView.alpha = 0
-        blackView.backgroundColor = .black
-        blackView.frame = view.frame
-        return blackView
-    }()
-    
-    private let crossImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "cross"))
-        image.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
-        image.backgroundColor = .white
-        image.alpha = 0
-        return image
-    }()
-    
     private var leadingAvatarImage = NSLayoutConstraint()
     private var topAvatarImage = NSLayoutConstraint()
     private var widthAvatarImage = NSLayoutConstraint()
@@ -54,42 +37,6 @@ class ProfileViewController: UIViewController {
         ])
     }
 
-    private func setupGestures(){
-        let tapAvatarGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
-        tableView.addGestureRecognizer(tapAvatarGesture)
-        
-        let tapCrossGesture = UITapGestureRecognizer(target: self, action: #selector(self.tapCrossAction))
-        self.crossImage.addGestureRecognizer(tapCrossGesture)
-    }
-    
-    @objc private func tapAction() {
-        let avatar = ProfileHeaderView().avatarImageView
-        UIView.animate(withDuration: 0.8,
-                       delay: 0.0,
-                       usingSpringWithDamping: 0.5,
-                       initialSpringVelocity: 0.0,
-                       options: .curveEaseInOut) {
-            self.view.addSubview(self.blackView)
-            self.view.addSubview(self.crossImage)
-            self.blackView.alpha = 1
-            self.blackView.addSubview(avatar)
-            avatar.translatesAutoresizingMaskIntoConstraints = true
-            avatar.frame = CGRect(x: (UIScreen.main.bounds.width / 2) - 125, y: (UIScreen.main.bounds.height / 2) - 125, width: 250, height: 250)
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            UIView.animate(withDuration: 0.3,
-                           delay: 0.0) {
-                self.crossImage.alpha = 1
-                avatar.layer.cornerRadius = 0
-            }
-        }
-
-    }
-    
-    @objc private func tapCrossAction() {
-        blackView.alpha = 0
-        crossImage.alpha = 0
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

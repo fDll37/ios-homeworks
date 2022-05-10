@@ -11,20 +11,20 @@ class LogInViewController: UIViewController {
     
     private let nc = NotificationCenter.default
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let contentView: UIView = {
+    private lazy var contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false
         contentView.backgroundColor = .white
         return contentView
     }()
     
-    private let logInImageView: UIImageView = {
+    private lazy var logInImageView: UIImageView = {
         let logInImageView = UIImageView(image: UIImage(named: "logo"))
         logInImageView.translatesAutoresizingMaskIntoConstraints = false
         return logInImageView

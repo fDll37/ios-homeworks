@@ -11,7 +11,7 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
-    private let firstButton: UIButton = {
+    private lazy var firstButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
         button.setTitle("Посмотреть пост", for: .normal)
@@ -25,7 +25,7 @@ class FeedViewController: UIViewController {
         navigationController?.pushViewController(postVC, animated: true)
     }
     
-    private let secondButton: UIButton = {
+    private lazy var secondButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
         button.setTitle("Посмотреть пост2", for: .normal)
@@ -39,7 +39,7 @@ class FeedViewController: UIViewController {
         navigationController?.pushViewController(postVC, animated: true)
     }
     
-    private let stackView: UIStackView = {
+    private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.backgroundColor = .brown
