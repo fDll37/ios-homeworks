@@ -20,6 +20,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarVC = MainTabBarViewController()
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = tabBarVC
+        // если строку выше комментировать, то просто черный экран и ничего дальше
+        let profileVC = ProfileViewController()
+        self.window?.rootViewController = profileVC
         self.window = window
         window.makeKeyAndVisible()
     }

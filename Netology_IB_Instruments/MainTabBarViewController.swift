@@ -9,7 +9,7 @@ import UIKit
 
 class MainTabBarViewController: UITabBarController {
 
-    let profileVC = ProfileViewController()
+//    let profileVC = ProfileViewController()
     let feedVC = FeedViewController()
     let loginVC = LogInViewController()
     
@@ -19,18 +19,18 @@ class MainTabBarViewController: UITabBarController {
     }
 
     private func setupControllers() {
-        profileVC.tabBarItem.title = "Профиль"
+//        profileVC.tabBarItem.title = "Профиль"
         feedVC.tabBarItem.title = "Лента"
         loginVC.tabBarItem.title = "Log In"
         
         let loginNavigationController = UINavigationController(rootViewController: loginVC)
         let feedNavigationController = UINavigationController(rootViewController: feedVC)
         
-        profileVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
+//        profileVC.tabBarItem.image = UIImage(systemName: "person.crop.circle")
         feedVC.tabBarItem.image = UIImage(systemName: "list.bullet")
         loginVC.tabBarItem.image = UIImage(systemName: "person.fill.viewfinder")
         
-        profileVC.navigationItem.title = profileVC.tabBarItem.title
+//        profileVC.navigationItem.title = profileVC.tabBarItem.title
         feedVC.navigationItem.title = feedVC.tabBarItem.title
         loginVC.navigationItem.title = loginVC.tabBarItem.title
         

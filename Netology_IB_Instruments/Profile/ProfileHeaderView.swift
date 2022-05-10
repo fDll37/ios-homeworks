@@ -11,7 +11,7 @@ class ProfileHeaderView: UIView {
    
     private lazy var statusText: String? = statusTextField.text
     
-    private let avatarImageView: UIImageView = {
+     let avatarImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "75F4BB39"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 50
