@@ -9,20 +9,20 @@ import UIKit
 
 class DetailPostViewController: UIViewController {
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
-    private let postView: UIView = {
+    private lazy var postView: UIView = {
         let postView = UIView()
         postView.translatesAutoresizingMaskIntoConstraints = false
         postView.backgroundColor = .white
         return postView
     }()
     
-    private let postNameLabel: UILabel = {
+    private lazy var postNameLabel: UILabel = {
         let postLabel = UILabel()
         postLabel.font = UIFont.systemFont(ofSize: 20, weight: .bold)
         postLabel.textColor = .black
@@ -31,7 +31,7 @@ class DetailPostViewController: UIViewController {
         return postLabel
     }()
     
-    private let postImage: UIImageView = {
+    private lazy var postImage: UIImageView = {
         let postImage = UIImageView()
         postImage.translatesAutoresizingMaskIntoConstraints = false
         postImage.backgroundColor = .black
@@ -39,7 +39,7 @@ class DetailPostViewController: UIViewController {
         return postImage
     }()
     
-    private let postDescriptionLabel: UILabel = {
+    private lazy var postDescriptionLabel: UILabel = {
         let postDescriptionLabel = UILabel()
         postDescriptionLabel.numberOfLines = 0
         postDescriptionLabel.textColor = UIColor.gray
@@ -47,7 +47,7 @@ class DetailPostViewController: UIViewController {
         return postDescriptionLabel
     }()
 
-    private let postLikesLabel: UILabel = {
+    private lazy var postLikesLabel: UILabel = {
         let postLikesLabel = UILabel()
         postLikesLabel.translatesAutoresizingMaskIntoConstraints = false
         postLikesLabel.font = UIFont.systemFont(ofSize: 16)
@@ -56,7 +56,7 @@ class DetailPostViewController: UIViewController {
         return postLikesLabel
     }()
     
-    private let postLikesCounterLabel: UILabel = {
+    private lazy var postLikesCounterLabel: UILabel = {
         let postLikesCounterLabel = UILabel()
         postLikesCounterLabel.textColor = .black
         postLikesCounterLabel.font = UIFont.systemFont(ofSize: 16)
@@ -64,7 +64,7 @@ class DetailPostViewController: UIViewController {
         return postLikesCounterLabel
     }()
     
-    private let postViewLabel: UILabel = {
+    private lazy var postViewLabel: UILabel = {
         let postViewLabel = UILabel()
         postViewLabel.text = "Views: "
         postViewLabel.textColor = .black
@@ -73,7 +73,7 @@ class DetailPostViewController: UIViewController {
         return postViewLabel
     }()
     
-    private let postViewCounterLabel: UILabel = {
+    private lazy var postViewCounterLabel: UILabel = {
         let postViewCounterLabel = UILabel()
         postViewCounterLabel.textColor = .black
         postViewCounterLabel.font = UIFont.systemFont(ofSize: 16)

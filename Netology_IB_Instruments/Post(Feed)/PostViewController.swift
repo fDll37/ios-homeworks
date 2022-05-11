@@ -14,13 +14,16 @@ class PostViewController: UIViewController {
         view.backgroundColor = .purple
         makeBarItem()
     }
+    
     private func makeBarItem() {
         let buttonItem = UIBarButtonItem(title: "Инфо", style: .plain, target: self, action: #selector(tapAction))
         navigationItem.rightBarButtonItem = buttonItem
     }
+    
     @objc private func tapAction(){
         let infoVC = InfoViewController()
         infoVC.title = "Информация о посте"
         navigationController?.pushViewController(infoVC, animated: true)
     }
+    
 }
