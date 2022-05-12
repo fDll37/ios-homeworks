@@ -11,10 +11,10 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     private lazy var blackView: UIView = {
         let blackView = UIView()
-        blackView.translatesAutoresizingMaskIntoConstraints = false
+//        blackView.translatesAutoresizingMaskIntoConstraints = false
         blackView.alpha = 0
         blackView.backgroundColor = .black
-        blackView.frame = UIScreen.main.bounds
+        blackView.frame = window!.bounds
         return blackView
     }()
     
@@ -50,26 +50,27 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         imageCollectionCell.image = post.image
     }
     
-    private var avatarBottom = NSLayoutConstraint()
-    private var avatarTrailing = NSLayoutConstraint()
-    private var avatarTop = NSLayoutConstraint()
+    private var avatarWight = NSLayoutConstraint()
     private var avatarLeading = NSLayoutConstraint()
+    private var avatarTop = NSLayoutConstraint()
+    private var avatarHeight = NSLayoutConstraint()
     
     
     private func layout(){
         contentView.addSubview(imageCollectionCell)
         
-        avatarTop = imageCollectionCell.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor)
-        avatarLeading = imageCollectionCell.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor)
-        avatarTrailing = imageCollectionCell.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor)
-        avatarBottom = imageCollectionCell.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor)
+        avatarTop = imageCollectionCell.topAnchor.constraint(equalTo: contentView.topAnchor)
+        avatarLeading = imageCollectionCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor)
+        avatarWight = imageCollectionCell.widthAnchor.constraint(equalTo: contentView.widthAnchor)
+        avatarHeight = imageCollectionCell.heightAnchor.constraint(equalTo: contentView.heightAnchor)
         
         
         NSLayoutConstraint.activate([
+            
             avatarTop,
+            avatarHeight,
             avatarLeading,
-            avatarTrailing,
-            avatarBottom
+            avatarWight
             ])
     }
     
@@ -82,25 +83,35 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
     
     @objc private func tapAction() {
-        contentView.addSubview(blackView)
-        contentView.bringSubviewToFront(blackView)
+        let window = UIApplication.shared.windows.first(where: { $0.isKeyWindow })
+        window?.addSubview(blackView)
+//        blackView.addSubview(imageCollectionCell)
+        bringSubviewToFront(imageCollectionCell)
         blackView.addSubview(crossButton)
-        blackView.addSubview(imageCollectionCell)
         
         NSLayoutConstraint.activate([
-            crossButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            crossButton.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            crossButton.trailingAnchor.constraint(equalTo: blackView.trailingAnchor, constant: -30),
+            crossButton.topAnchor.constraint(equalTo: blackView.topAnchor, constant: 30),
             crossButton.widthAnchor.constraint(equalToConstant: 30),
             crossButton.heightAnchor.constraint(equalToConstant: 30)
         ])
         
         UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
-            blackView.alpha = 0.85
-            avatarTop.constant = 1
-            avatarLeading.constant = 1
-            avatarBottom.constant = 1
-            avatarTrailing.constant = 1
+            blackView.alpha = 1
+            
+            NSLayoutConstraint.activate([
+                imageCollectionCell.topAnchor.constraint(equalTo: blackView.safeAreaLayoutGuide.topAnchor, constant: UIScreen.main.bounds.midX),
+                imageCollectionCell.leadingAnchor.constraint(equalTo: blackView.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+                imageCollectionCell.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+                imageCollectionCell.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)
+            ])
+            
+//            avatarTop.constant = UIScreen.main.bounds.midX
+//            avatarLeading.constant = 16
+//            avatarWight.constant = UIScreen.main.bounds.width
+//            avatarHeight.constant = UIScreen.main.bounds.width
             layoutIfNeeded()
+            bringSubviewToFront(imageCollectionCell)
             
         } completion: { _ in
             UIView.animate(withDuration: 0.3) { [self] in
@@ -116,11 +127,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         } completion: { _ in
             UIView.animate(withDuration: 0.5) { [self] in
                 
-                contentView.sendSubviewToBack(imageCollectionCell)
+                contentView.addSubview(imageCollectionCell)
                 avatarTop.constant = 0
+                avatarWight.constant = 0
                 avatarLeading.constant = 0
-                avatarTrailing.constant = 0
-                avatarBottom.constant = 0
+                avatarHeight.constant = 0
                 blackView.alpha = 0.0
                 blackView.removeFromSuperview()
                 
