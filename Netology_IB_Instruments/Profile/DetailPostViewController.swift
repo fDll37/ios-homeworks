@@ -86,6 +86,7 @@ class DetailPostViewController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = false
         layout()
+        setupGestures()
     }
 
     func setupCell (_ post: PostModel){
@@ -94,6 +95,20 @@ class DetailPostViewController: UIViewController {
         postDescriptionLabel.text = post.description
         postViewCounterLabel.text = String(post.views)
         postLikesCounterLabel.text = String(post.likes)
+    }
+    
+    private func setupGestures() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikePost))
+        postLikesLabel.isUserInteractionEnabled = true
+        postLikesLabel.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc private func tapLikePost() {
+        if let postLikesCounter = postLikesCounterLabel.text {
+            if let postLikesCounter = Int(postLikesCounter) {
+                postLikesCounterLabel.text = String(postLikesCounter + 1)
+            }
+        }
     }
     
     private func layout(){

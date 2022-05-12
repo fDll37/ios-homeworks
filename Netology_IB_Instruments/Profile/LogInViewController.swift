@@ -9,6 +9,9 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    private let login = "admin"
+    private let password = "password"
+    
     private let nc = NotificationCenter.default
     
     private lazy var scrollView: UIScrollView = {
@@ -67,6 +70,17 @@ class LogInViewController: UIViewController {
         return passwordTextField
     }()
     
+    private lazy var alertLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .red
+        label.text = "Нужно больше 5 символов в пароле"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.alpha = 0
+        return label
+    }()
+    
     private lazy var logInButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(rgb: 0x4885CC)
@@ -77,8 +91,59 @@ class LogInViewController: UIViewController {
         return button
     }()
     @objc private func segueToProfile() {
-        let profileVC = ProfileViewController()
-        navigationController?.pushViewController(profileVC, animated: true)
+        var isEmptyLoginTextFiled = false
+        var isEmptyPasswordTextField = false
+        
+        if logInTextField.text == "" || logInTextField.text == nil {
+            isEmptyLoginTextFiled = true
+            logInTextField.layer.borderColor = UIColor.red.cgColor
+            logInTextField.layer.borderWidth = 1
+        }
+        else{
+            logInTextField.layer.borderColor = UIColor.lightGray.cgColor
+            logInTextField.layer.borderWidth = 0.5
+        }
+        
+        if passwordTextField.text == "" || passwordTextField.text == nil {
+            isEmptyPasswordTextField = true
+            passwordTextField.layer.borderColor = UIColor.red.cgColor
+            passwordTextField.layer.borderWidth = 1
+            if passwordTextField.text!.count < 6 {
+                alertLabel.alpha = 1
+            }
+        }
+        else{
+            if passwordTextField.text!.count < 6 {
+                passwordTextField.layer.borderColor = UIColor.red.cgColor
+                passwordTextField.layer.borderWidth = 1
+                alertLabel.alpha = 1
+            }
+            else{
+                passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+                passwordTextField.layer.borderWidth = 0.5
+                alertLabel.alpha = 0
+            }
+        }
+
+        if isEmptyLoginTextFiled == false && isEmptyPasswordTextField == false {
+            if login == logInTextField.text && password == passwordTextField.text {
+                let profileVC = ProfileViewController()
+                navigationController?.pushViewController(profileVC, animated: true)
+            }
+            else{
+                let alert = UIAlertController(title: "Неверные данные!", message: "Вы ввели неверный логин или пароль, попробуйте снова", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Попробовать еще раз", style: .default)
+                alert.addAction(okAction)
+                present(alert, animated: true)
+            }
+        }
+        else{
+            let alert = UIAlertController(title: "Неверные данные!", message: "Вы ввели неверный логин или пароль, попробуйте снова", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Попробовать еще раз", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -109,7 +174,7 @@ class LogInViewController: UIViewController {
             let loginButtonBottomPointY = self.logInButton.frame.origin.y + 50
             let keyboardOriginY = self.view.frame.height - keyboardHeight
             
-            let yOffset = keyboardOriginY < loginButtonBottomPointY ? loginButtonBottomPointY - keyboardOriginY + 25 : 0
+            let yOffset = keyboardOriginY < loginButtonBottomPointY ? loginButtonBottomPointY - keyboardOriginY + 45 : 0
             
             self.scrollView.contentOffset = CGPoint(x: 0, y: yOffset)
         }
@@ -122,7 +187,7 @@ class LogInViewController: UIViewController {
     private func layout(){
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        [logInImageView, logInTextField, passwordTextField, logInButton].forEach{contentView.addSubview($0)}
+        [logInImageView, logInTextField, passwordTextField, alertLabel, logInButton].forEach{contentView.addSubview($0)}
         
         let constraint:CGFloat = 16
         
@@ -154,8 +219,14 @@ class LogInViewController: UIViewController {
             passwordTextField.topAnchor.constraint(equalTo: logInTextField.bottomAnchor),
             passwordTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            alertLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 5),
+            alertLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
+            alertLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
+            alertLabel.heightAnchor.constraint(equalToConstant: 20),
+            
 
-            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: constraint),
+            logInButton.topAnchor.constraint(equalTo: alertLabel.bottomAnchor, constant: 5),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             logInButton.heightAnchor.constraint(equalToConstant: 50),

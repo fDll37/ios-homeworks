@@ -9,7 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    private let postModel = PostModel.makeArrayPost()
+    private var postModel = PostModel.makeArrayPost()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -58,14 +58,13 @@ class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupGestures()
         view.backgroundColor = .systemGray4
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         layout()
-//        setupGestures()
+        tableView.reloadData()
         navigationController?.navigationBar.isHidden = true
     }
 }
@@ -90,11 +89,26 @@ extension ProfileViewController: UITableViewDataSource {
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier) as? CustomTableViewCell else {return UITableViewCell()}
+        cell.delegate = self
         cell.setupCell(postModel[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
 }
+// MARK: - CustomTableViewCellDelegate
+extension ProfileViewController: CustomTableViewCellDelegate {
+    func updateLikeCount(likes: Int, id: Int){
+        postModel[id].likes = likes
+        tableView.reloadData()
+    }
+    func updateViewCount(views: Int, id: Int){
+        postModel[id].views = views
+        tableView.reloadData()
+    }
+
+}
+
+
 // MARK: - PhotosTableViewCellDelegate
 extension ProfileViewController: PhotosTableViewCellDelegate {
     
