@@ -55,17 +55,14 @@ class ProfileViewController: UIViewController {
         ])
     }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        setupGestures()
         view.backgroundColor = .systemGray4
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         layout()
-//        setupGestures()
         navigationController?.navigationBar.isHidden = true
     }
 }
