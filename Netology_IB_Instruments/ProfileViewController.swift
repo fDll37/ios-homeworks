@@ -4,7 +4,7 @@
 //
 //  Created by Данил Менделев on 03.04.2022.
 //
-
+ 
 import UIKit
 
 class ProfileViewController: UIViewController {
@@ -21,6 +21,28 @@ class ProfileViewController: UIViewController {
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return tableView
     }()
+     
+    private lazy var blackView: UIView = {
+        let blackView = UIView()
+        blackView.translatesAutoresizingMaskIntoConstraints = false
+        blackView.alpha = 0
+        blackView.backgroundColor = .black
+        blackView.frame = view.frame
+        return blackView
+    }()
+    
+    private let crossImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "cross"))
+        image.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
+        image.backgroundColor = .white
+        image.alpha = 0
+        return image
+    }()
+    
+    private var leadingAvatarImage = NSLayoutConstraint()
+    private var topAvatarImage = NSLayoutConstraint()
+    private var widthAvatarImage = NSLayoutConstraint()
+    
     
     private func layout(){
         view.addSubview(tableView)
@@ -33,16 +55,14 @@ class ProfileViewController: UIViewController {
         ])
     }
 
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray4
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         layout()
-//        setupGestures()
         navigationController?.navigationBar.isHidden = true
     }
 }
