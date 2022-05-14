@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol DetailPostViewControllerDelegate: AnyObject{
+    func updateLikeCountFromDetailView(likes: Int, id: Int)
+}
+
+
 class DetailPostViewController: UIViewController {
+    
+    weak var delegate: DetailPostViewControllerDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -89,7 +96,10 @@ class DetailPostViewController: UIViewController {
         setupGestures()
     }
 
+    private var idPost: Int = 0
+    
     func setupCell (_ post: PostModel){
+        idPost = post.id
         postNameLabel.text = post.author
         postImage.image = post.image
         postDescriptionLabel.text = post.description
@@ -106,6 +116,7 @@ class DetailPostViewController: UIViewController {
     @objc private func tapLikePost() {
         if let postLikesCounter = postLikesCounterLabel.text {
             if let postLikesCounter = Int(postLikesCounter) {
+                delegate?.updateLikeCountFromDetailView(likes: postLikesCounter + 1, id: idPost)
                 postLikesCounterLabel.text = String(postLikesCounter + 1)
             }
         }

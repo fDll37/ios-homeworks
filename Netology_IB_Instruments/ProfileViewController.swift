@@ -21,23 +21,6 @@ class ProfileViewController: UIViewController {
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return tableView
     }()
-     
-    private lazy var blackView: UIView = {
-        let blackView = UIView()
-        blackView.translatesAutoresizingMaskIntoConstraints = false
-        blackView.alpha = 0
-        blackView.backgroundColor = .black
-        blackView.frame = view.frame
-        return blackView
-    }()
-    
-    private let crossImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "cross"))
-        image.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
-        image.backgroundColor = .white
-        image.alpha = 0
-        return image
-    }()
     
     private var leadingAvatarImage = NSLayoutConstraint()
     private var topAvatarImage = NSLayoutConstraint()
@@ -71,7 +54,6 @@ class ProfileViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         2
     }
@@ -97,6 +79,14 @@ extension ProfileViewController: UITableViewDataSource {
 }
 // MARK: - CustomTableViewCellDelegate
 extension ProfileViewController: CustomTableViewCellDelegate {
+    func openDetailView(id: Int) {
+        let detailPost = DetailPostViewController()
+        detailPost.setupCell(postModel[id])
+        detailPost.delegate = self
+        navigationController?.pushViewController(detailPost, animated: true)
+        tableView.reloadData()
+    }
+    
     func updateLikeCount(likes: Int, id: Int){
         postModel[id].likes = likes
         tableView.reloadData()
@@ -108,10 +98,17 @@ extension ProfileViewController: CustomTableViewCellDelegate {
 
 }
 
+//MARK: - DetailPostViewControllerDelegate
+extension ProfileViewController: DetailPostViewControllerDelegate {
+    func updateLikeCountFromDetailView(likes: Int, id: Int) {
+        postModel[id].likes = likes
+        tableView.reloadData()
+    }
+    
+}
 
 // MARK: - PhotosTableViewCellDelegate
 extension ProfileViewController: PhotosTableViewCellDelegate {
-    
     func openViewAllCollection() {
         let allPhotVC = AllCollectionPhotosViewController()
         allPhotVC.collectionPhotos = PhotosModel.makeArrayPhotos()
@@ -146,6 +143,7 @@ extension ProfileViewController: UITableViewDelegate{
         else{
             let detailPost = DetailPostViewController()
             detailPost.setupCell(postModel[indexPath.row])
+            detailPost.delegate = self
             navigationController?.pushViewController(detailPost, animated: true)
         }
         

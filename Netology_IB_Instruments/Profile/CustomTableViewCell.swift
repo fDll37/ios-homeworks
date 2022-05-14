@@ -10,6 +10,7 @@ import UIKit
 protocol CustomTableViewCellDelegate: AnyObject{
     func updateLikeCount(likes: Int, id: Int)
     func updateViewCount(views: Int, id: Int)
+    func openDetailView(id: Int)
 }
 
 class CustomTableViewCell: UITableViewCell {
@@ -91,11 +92,14 @@ class CustomTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    private var idPost: Int = 0
     
+    
+    private var idPost: Int = 0
+    private var postModel: PostModel = PostModel(id: 0, author: "", description: "", image: UIImage(), likes: 0, views: 0)
     
     
     func setupCell (_ post: PostModel){
+        postModel = post
         idPost = post.id
         postNameLabel.text = post.author
         postImage.image = post.image
@@ -107,6 +111,7 @@ class CustomTableViewCell: UITableViewCell {
         let tapLikeGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikePost))
         postLikesLabel.isUserInteractionEnabled = true
         postLikesLabel.addGestureRecognizer(tapLikeGesture)
+        
         let tapWatchGesture = UITapGestureRecognizer(target: self, action: #selector(tapWatchPost))
         postImage.isUserInteractionEnabled = true
         postImage.addGestureRecognizer(tapWatchGesture)
@@ -124,9 +129,9 @@ class CustomTableViewCell: UITableViewCell {
         if let postViewsCounter = postViewCounterLabel.text {
             if let postViewsCounter = Int(postViewsCounter) {
                 delegate?.updateViewCount(views: postViewsCounter + 1, id: idPost)
-                
             }
         }
+        delegate?.openDetailView(id: idPost)
     }
     
     private func layout(){
