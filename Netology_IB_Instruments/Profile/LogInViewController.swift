@@ -9,7 +9,7 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
-    private let login = "admin"
+    private let login = "admin@mail.ru"
     private let password = "password"
     
     private let nc = NotificationCenter.default
@@ -70,17 +70,6 @@ class LogInViewController: UIViewController {
         return passwordTextField
     }()
     
-    private lazy var alertLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .red
-        label.text = "Нужно больше 5 символов в пароле"
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.alpha = 0
-        return label
-    }()
-    
     private lazy var logInButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(rgb: 0x4885CC)
@@ -92,65 +81,56 @@ class LogInViewController: UIViewController {
     }()
     
     func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2}"
         let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
     
     @objc private func segueToProfile() {
-        var isEmptyLoginTextFiled = false
-        var isEmptyPasswordTextField = false
+        var isCorrectLoginText = false
+        var isCorrectPasswordText = false
         
-        if logInTextField.text == "" || logInTextField.text == nil {
-            if isValidEmail(logInTextField.text!) == false{
-                isEmptyLoginTextFiled = true
-                logInTextField.layer.borderColor = UIColor.red.cgColor
-                logInTextField.layer.borderWidth = 1
-            }
-            else{
-                logInTextField.layer.borderColor = UIColor.lightGray.cgColor
-                logInTextField.layer.borderWidth = 0.5
-                alertLabel.text = "not valid email"
-                alertLabel.alpha = 1
-            }
+        if logInTextField.text == "" || logInTextField.text == nil || logInTextField.text != login || isValidEmail(logInTextField.text!) == false {
+            logInTextField.layer.borderColor = UIColor.red.cgColor
+            logInTextField.layer.borderWidth = 1
+            logInTextField.text = ""
+            logInTextField.attributedPlaceholder = NSAttributedString(
+                string: "Login in incorrect",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
         }
         else{
+            isCorrectLoginText = true
             logInTextField.layer.borderColor = UIColor.lightGray.cgColor
             logInTextField.layer.borderWidth = 0.5
         }
         
-        if passwordTextField.text == "" || passwordTextField.text == nil {
-            isEmptyPasswordTextField = true
+        if passwordTextField.text!.count < 6 {
+            passwordTextField.text = ""
+            passwordTextField.attributedPlaceholder = NSAttributedString(
+                string: "Нужно больше 5 символов в пароле",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
+        }
+        
+        if passwordTextField.text == "" || passwordTextField.text == nil || passwordTextField.text != password {
             passwordTextField.layer.borderColor = UIColor.red.cgColor
             passwordTextField.layer.borderWidth = 1
-            if passwordTextField.text!.count < 6 {
-                alertLabel.alpha = 1
-            }
+            passwordTextField.text = ""
+            passwordTextField.attributedPlaceholder = NSAttributedString(
+                string: "Password is incorrect",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
         }
         else{
-            if passwordTextField.text!.count < 6 {
-                passwordTextField.layer.borderColor = UIColor.red.cgColor
-                passwordTextField.layer.borderWidth = 1
-                alertLabel.alpha = 1
-            }
-            else{
-                passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
-                passwordTextField.layer.borderWidth = 0.5
-                alertLabel.alpha = 0
-            }
+            isCorrectPasswordText = true
+            passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+            passwordTextField.layer.borderWidth = 0.5
         }
-
-        if isEmptyLoginTextFiled == false && isEmptyPasswordTextField == false {
-            if login == logInTextField.text && password == passwordTextField.text {
-                let profileVC = ProfileViewController()
-                navigationController?.pushViewController(profileVC, animated: true)
-            }
-            else{
-                let alert = UIAlertController(title: "Неверные данные!", message: "Вы ввели неверный логин или пароль, попробуйте снова", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Попробовать еще раз", style: .default)
-                alert.addAction(okAction)
-                present(alert, animated: true)
-            }
+        
+        if isCorrectLoginText == true && isCorrectPasswordText == true {
+            let profileVC = ProfileViewController()
+            navigationController?.pushViewController(profileVC, animated: true)
         }
         else{
             let alert = UIAlertController(title: "Неверные данные!", message: "Вы ввели неверный логин или пароль, попробуйте снова", preferredStyle: .alert)
@@ -158,7 +138,6 @@ class LogInViewController: UIViewController {
             alert.addAction(okAction)
             present(alert, animated: true)
         }
-        
     }
     
     override func viewDidLoad() {
@@ -194,7 +173,7 @@ class LogInViewController: UIViewController {
             self.scrollView.contentOffset = CGPoint(x: 0, y: yOffset)
         }
     }
-     
+    
     @objc private func kbdHide() {
         self.scrollView.contentOffset = .zero
     }
@@ -202,7 +181,7 @@ class LogInViewController: UIViewController {
     private func layout(){
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        [logInImageView, logInTextField, passwordTextField, alertLabel, logInButton].forEach{contentView.addSubview($0)}
+        [logInImageView, logInTextField, passwordTextField, logInButton].forEach{contentView.addSubview($0)}
         
         let constraint:CGFloat = 16
         
@@ -228,20 +207,14 @@ class LogInViewController: UIViewController {
             logInTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             logInTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             logInTextField.heightAnchor.constraint(equalToConstant: 50),
-           
+            
             passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             passwordTextField.topAnchor.constraint(equalTo: logInTextField.bottomAnchor),
             passwordTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
             
-            alertLabel.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 5),
-            alertLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
-            alertLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
-            alertLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-
-            logInButton.topAnchor.constraint(equalTo: alertLabel.bottomAnchor, constant: 5),
+            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 5),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
@@ -282,19 +255,19 @@ extension LogInViewController: UITextFieldDelegate {
 
 // MARK: - UIColor Hex-code
 extension UIColor {
-   convenience init(red: Int, green: Int, blue: Int) {
-       assert(red >= 0 && red <= 255, "Invalid red component")
-       assert(green >= 0 && green <= 255, "Invalid green component")
-       assert(blue >= 0 && blue <= 255, "Invalid blue component")
-
-       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
-   }
-
-   convenience init(rgb: Int) {
-       self.init(
-           red: (rgb >> 16) & 0xFF,
-           green: (rgb >> 8) & 0xFF,
-           blue: rgb & 0xFF
-       )
-   }
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
 }
