@@ -33,7 +33,9 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private var idPhoto: Int = 0
     func setupCollectionCell(_ post: PhotosModel){
+        idPhoto = post.id
         imageCollectionCell.image = post.image
     }
     

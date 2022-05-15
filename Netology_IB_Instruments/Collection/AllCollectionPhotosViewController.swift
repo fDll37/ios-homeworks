@@ -13,9 +13,11 @@ class AllCollectionPhotosViewController: UIViewController {
     
     private lazy var blackView: UIView = {
         let blackView = UIView()
-        blackView.alpha = 0
+        blackView.alpha = 0.8
+        blackView.layer.opacity = 0
         blackView.backgroundColor = .black
-        blackView.frame = view.safeAreaLayoutGuide.layoutFrame
+        blackView.frame = UIScreen.main.bounds
+        blackView.translatesAutoresizingMaskIntoConstraints = false
         return blackView
     }()
     
@@ -24,13 +26,17 @@ class AllCollectionPhotosViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.alpha = 0.0
+        button.layer.opacity = 0
         button.addTarget(self, action: #selector(cancelAction), for: .touchUpInside)
         return button
     }()
     
     private lazy var imageCollectionCell: UIImageView = {
-        let imageView = UIImageView()
+        let imageView = UIImageView(image: UIImage(named: "1"))
+        imageView.layer.opacity = 0
+        imageView.layer.masksToBounds = false
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
@@ -46,6 +52,9 @@ class AllCollectionPhotosViewController: UIViewController {
         return imageCollection
     }()
     
+    private var idPhoto: Int = 0
+    private var framePhoto: CGRect = CGRect()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Photo Gallery"
@@ -54,12 +63,22 @@ class AllCollectionPhotosViewController: UIViewController {
     }
     
     private func layout(){
-        view.addSubview(imageCollection)
+        [imageCollection, blackView, imageCollectionCell, crossButton].forEach({ view.addSubview($0) })
         NSLayoutConstraint.activate([
             imageCollection.topAnchor.constraint(equalTo: view.topAnchor),
             imageCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            imageCollection.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            crossButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            crossButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            crossButton.widthAnchor.constraint(equalToConstant: 30),
+            crossButton.heightAnchor.constraint(equalTo: crossButton.widthAnchor, multiplier: 1),
+            
+            imageCollectionCell.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageCollectionCell.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            imageCollectionCell.widthAnchor.constraint(equalTo: view.widthAnchor),
+            imageCollectionCell.heightAnchor.constraint(equalTo: imageCollectionCell.widthAnchor, multiplier: 1),
             ])
     }
 }
@@ -100,44 +119,43 @@ extension AllCollectionPhotosViewController: UICollectionViewDelegateFlowLayout 
 // MARK: - PhotosCollectionViewCellDelegate
 extension AllCollectionPhotosViewController: PhotosCollectionViewCellDelegate {
     func showImageCollection(image: UIImageView) {
-        imageCollectionCell = image
-        view.addSubview(blackView)
-        blackView.addSubview(imageCollectionCell)
-        blackView.addSubview(crossButton)
-                
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut) { [self] in
-            blackView.alpha = 1
-            NSLayoutConstraint.activate([
-                imageCollectionCell.topAnchor.constraint(equalTo: blackView.topAnchor, constant: UIScreen.main.bounds.midX),
-                imageCollectionCell.leadingAnchor.constraint(equalTo: blackView.leadingAnchor, constant: 16),
-                imageCollectionCell.trailingAnchor.constraint(equalTo: blackView.trailingAnchor, constant: -16),
-                imageCollectionCell.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
-                imageCollectionCell.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.width),
+        self.navigationController?.isNavigationBarHidden = true
+        self.imageCollectionCell.image = image.image
+        
+         UIView.animate(withDuration: 0.5,
+                        delay: 0.0,
+                        usingSpringWithDamping: 1.0,
+                        initialSpringVelocity: 0.0,
+                        options: .curveEaseInOut) {
 
-                crossButton.trailingAnchor.constraint(equalTo: blackView.trailingAnchor, constant: -30),
-                crossButton.topAnchor.constraint(equalTo: blackView.topAnchor, constant: 30),
-                crossButton.widthAnchor.constraint(equalToConstant: 30),
-                crossButton.heightAnchor.constraint(equalToConstant: 30)
-            ])
-            view.layoutIfNeeded()
-        } completion: { _ in
-            UIView.animate(withDuration: 0.3) { [self] in
-                crossButton.alpha = 1.0
-            }
-        }
+             self.blackView.layer.opacity = 0.8
+             self.imageCollectionCell.layer.opacity = 1
+             self.view.layoutIfNeeded()
+
+         } completion: { _ in
+             UIView.animate(withDuration: 0.3,
+                            delay: 0.0) {
+                 self.crossButton.layer.opacity = 1
+             }
+         }
     }
+    
     @objc private func cancelAction() {
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseInOut) { [self] in
-            crossButton.alpha = 0.0
-            crossButton.removeFromSuperview()
+        UIView.animate(withDuration: 0.3,
+                       delay: 0.0,
+                       usingSpringWithDamping: 1.0,
+                       initialSpringVelocity: 0.0,
+                       options: .curveEaseInOut) {
+            self.crossButton.layer.opacity = 0
         } completion: { _ in
-            UIView.animate(withDuration: 0.5) { [self] in
-                imageCollectionCell.removeFromSuperview()
-                blackView.alpha = 0.0
-                blackView.removeFromSuperview()
-                blackView.sendSubviewToBack(imageCollectionCell)
-                view.layoutIfNeeded()
+            UIView.animate(withDuration: 0.5,
+                           delay: 0.0) {
+                self.blackView.layer.opacity = 0.0
+                self.imageCollectionCell.layer.opacity = 0
+                self.navigationController?.isNavigationBarHidden = false
+                self.view.layoutIfNeeded()
             }
         }
     }
+    
 }

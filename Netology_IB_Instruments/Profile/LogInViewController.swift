@@ -90,14 +90,29 @@ class LogInViewController: UIViewController {
         button.addTarget(self, action: #selector(segueToProfile), for: .touchUpInside)
         return button
     }()
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
     @objc private func segueToProfile() {
         var isEmptyLoginTextFiled = false
         var isEmptyPasswordTextField = false
         
         if logInTextField.text == "" || logInTextField.text == nil {
-            isEmptyLoginTextFiled = true
-            logInTextField.layer.borderColor = UIColor.red.cgColor
-            logInTextField.layer.borderWidth = 1
+            if isValidEmail(logInTextField.text!) == false{
+                isEmptyLoginTextFiled = true
+                logInTextField.layer.borderColor = UIColor.red.cgColor
+                logInTextField.layer.borderWidth = 1
+            }
+            else{
+                logInTextField.layer.borderColor = UIColor.lightGray.cgColor
+                logInTextField.layer.borderWidth = 0.5
+                alertLabel.text = "not valid email"
+                alertLabel.alpha = 1
+            }
         }
         else{
             logInTextField.layer.borderColor = UIColor.lightGray.cgColor
