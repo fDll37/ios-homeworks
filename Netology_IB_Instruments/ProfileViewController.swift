@@ -9,7 +9,7 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    private let postModel = PostModel.makeArrayPost()
+    private var postModel = PostModel.makeArrayPost()
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -20,23 +20,6 @@ class ProfileViewController: UIViewController {
         tableView.register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.identifier)
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: PhotosTableViewCell.identifier)
         return tableView
-    }()
-     
-    private lazy var blackView: UIView = {
-        let blackView = UIView()
-        blackView.translatesAutoresizingMaskIntoConstraints = false
-        blackView.alpha = 0
-        blackView.backgroundColor = .black
-        blackView.frame = view.frame
-        return blackView
-    }()
-    
-    private let crossImage: UIImageView = {
-        let image = UIImageView(image: UIImage(named: "cross"))
-        image.frame = CGRect(x: UIScreen.main.bounds.width - 45, y: 30, width: 25, height: 25)
-        image.backgroundColor = .white
-        image.alpha = 0
-        return image
     }()
     
     private var leadingAvatarImage = NSLayoutConstraint()
@@ -63,12 +46,25 @@ class ProfileViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         layout()
+        tableView.reloadData()
         navigationController?.navigationBar.isHidden = true
     }
 }
 
 // MARK: - UITableViewDataSource
 extension ProfileViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            tableView.beginUpdates()
+            postModel.remove(at: indexPath.row )
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
+    }
     
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -87,14 +83,44 @@ extension ProfileViewController: UITableViewDataSource {
         }
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomTableViewCell.identifier) as? CustomTableViewCell else {return UITableViewCell()}
+        cell.delegate = self
         cell.setupCell(postModel[indexPath.row])
         cell.selectionStyle = .none
         return cell
     }
 }
+// MARK: - CustomTableViewCellDelegate
+extension ProfileViewController: CustomTableViewCellDelegate {
+    func openDetailView(id: Int) {
+        let detailPost = DetailPostViewController()
+        detailPost.setupCell(postModel[id])
+        detailPost.delegate = self
+        navigationController?.pushViewController(detailPost, animated: true)
+        tableView.reloadData()
+    }
+    
+    func updateLikeCount(likes: Int, id: Int){
+        postModel[id].likes = likes
+        tableView.reloadData()
+    }
+    func updateViewCount(views: Int, id: Int){
+        postModel[id].views = views
+        tableView.reloadData()
+    }
+
+}
+
+//MARK: - DetailPostViewControllerDelegate
+extension ProfileViewController: DetailPostViewControllerDelegate {
+    func updateLikeCountFromDetailView(likes: Int, id: Int) {
+        postModel[id].likes = likes
+        tableView.reloadData()
+    }
+    
+}
+
 // MARK: - PhotosTableViewCellDelegate
 extension ProfileViewController: PhotosTableViewCellDelegate {
-    
     func openViewAllCollection() {
         let allPhotVC = AllCollectionPhotosViewController()
         allPhotVC.collectionPhotos = PhotosModel.makeArrayPhotos()
@@ -129,6 +155,7 @@ extension ProfileViewController: UITableViewDelegate{
         else{
             let detailPost = DetailPostViewController()
             detailPost.setupCell(postModel[indexPath.row])
+            detailPost.delegate = self
             navigationController?.pushViewController(detailPost, animated: true)
         }
         

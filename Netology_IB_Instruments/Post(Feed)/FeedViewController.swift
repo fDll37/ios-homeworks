@@ -55,8 +55,8 @@ class FeedViewController: UIViewController {
         layoutStackView()
     }
     
-    let firstPost = PostModel(author: "Author", description: "description this first post", image: UIImage(), likes: 0, views: 0)
-    let secondPost = PostModel(author: "second", description: "description this second post", image: UIImage(), likes: 1, views: 1)
+    let firstPost = PostModel(id: 10, author: "Author", description: "description this first post", image: UIImage(), likes: 0, views: 0)
+    let secondPost = PostModel(id: 11, author: "second", description: "description this second post", image: UIImage(), likes: 1, views: 1)
 
     private func layoutStackView(){
         

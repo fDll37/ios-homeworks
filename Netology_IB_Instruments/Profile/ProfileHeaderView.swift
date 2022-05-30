@@ -8,9 +8,7 @@
 import UIKit
 
 class ProfileHeaderView: UIView {
-    
-    private lazy var statusText: String? = statusTextField.text
-    
+        
     private lazy var blackView: UIView = {
         let blackView = UIView()
         blackView.translatesAutoresizingMaskIntoConstraints = false
@@ -68,15 +66,22 @@ class ProfileHeaderView: UIView {
         textField.layer.cornerRadius = 12
         textField.layer.backgroundColor = UIColor.white.cgColor
         textField.textColor = .black
-        textField.placeholder = "Put in your new status"
+        textField.placeholder = "Введите Ваш новый статус"
         textField.textAlignment = .center
         textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         return textField
     }()
-    @objc private func statusTextChanged() {
-        statusText = statusTextField.text ?? "New text status"
-    }
+    
+    private lazy var alertLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = .red
+        label.text = "Статус не может быть пустым!"
+        label.textAlignment = .left
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.alpha = 0
+        return label
+    }()
     
     private lazy var setStatusButton: UIButton = {
         let button = UIButton()
@@ -88,13 +93,21 @@ class ProfileHeaderView: UIView {
         return button
     }()
     @objc private func buttonPressed() {
-        statusLabel.text = statusText
+        if statusTextField.text == "" {
+            alertLabel.alpha = 1
+            statusTextField.layer.borderColor = UIColor.red.cgColor
+        }
+        else{
+            alertLabel.alpha = 0
+            statusTextField.layer.borderColor = UIColor.black.cgColor
+            statusLabel.text = statusTextField.text
+        }
         endEditing(true)
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        [avatarImageView, fullNameLabel, statusLabel, statusTextField, setStatusButton].forEach{addSubview($0)}
+        [avatarImageView, fullNameLabel, statusLabel, statusTextField, alertLabel, setStatusButton].forEach{addSubview($0)}
         layout()
         setupGestures()
         backgroundColor = .systemGray4
@@ -136,7 +149,12 @@ class ProfileHeaderView: UIView {
             statusTextField.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
             statusTextField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             
-            setStatusButton.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 20),
+            alertLabel.topAnchor.constraint(equalTo: statusTextField.bottomAnchor, constant: 5),
+            alertLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
+            alertLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
+            alertLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            setStatusButton.topAnchor.constraint(equalTo: alertLabel.bottomAnchor, constant: 5),
             setStatusButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: constraint),
             setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -constraint),
             setStatusButton.heightAnchor.constraint(equalToConstant: 50),

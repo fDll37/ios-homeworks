@@ -7,8 +7,16 @@
 
 import UIKit
 
+protocol CustomTableViewCellDelegate: AnyObject{
+    func updateLikeCount(likes: Int, id: Int)
+    func updateViewCount(views: Int, id: Int)
+    func openDetailView(id: Int)
+}
+
 class CustomTableViewCell: UITableViewCell {
 
+    weak var delegate: CustomTableViewCellDelegate?
+    
     private lazy var postView: UIView = {
         let postView = UIView()
         postView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,18 +86,52 @@ class CustomTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         layout()
+        setupGestures()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    private var idPost: Int = 0
+    private var postModel: PostModel = PostModel(id: 0, author: "", description: "", image: UIImage(), likes: 0, views: 0)
+    
+    
     func setupCell (_ post: PostModel){
+        postModel = post
+        idPost = post.id
         postNameLabel.text = post.author
         postImage.image = post.image
         postDescriptionLabel.text = post.description
         postViewCounterLabel.text = String(post.views)
         postLikesCounterLabel.text = String(post.likes)
+    }
+    private func setupGestures() {
+        let tapLikeGesture = UITapGestureRecognizer(target: self, action: #selector(tapLikePost))
+        postLikesLabel.isUserInteractionEnabled = true
+        postLikesLabel.addGestureRecognizer(tapLikeGesture)
+        
+        let tapWatchGesture = UITapGestureRecognizer(target: self, action: #selector(tapWatchPost))
+        postImage.isUserInteractionEnabled = true
+        postImage.addGestureRecognizer(tapWatchGesture)
+    }
+    
+    @objc private func tapLikePost() {
+        if let postLikesCounter = postLikesCounterLabel.text {
+            if let postLikesCounter = Int(postLikesCounter) {
+                delegate?.updateLikeCount(likes: postLikesCounter + 1, id: idPost)
+            }
+        }
+    }
+    
+    @objc private func tapWatchPost() {
+        if let postViewsCounter = postViewCounterLabel.text {
+            if let postViewsCounter = Int(postViewsCounter) {
+                delegate?.updateViewCount(views: postViewsCounter + 1, id: idPost)
+            }
+        }
+        delegate?.openDetailView(id: idPost)
     }
     
     private func layout(){

@@ -9,6 +9,9 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    private let login = "admin@mail.ru"
+    private let password = "password"
+    
     private let nc = NotificationCenter.default
     
     private lazy var scrollView: UIScrollView = {
@@ -76,9 +79,65 @@ class LogInViewController: UIViewController {
         button.addTarget(self, action: #selector(segueToProfile), for: .touchUpInside)
         return button
     }()
+    
+    func isValidEmail(_ email: String) -> Bool {
+        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2}"
+        let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+        return emailPred.evaluate(with: email)
+    }
+    
     @objc private func segueToProfile() {
-        let profileVC = ProfileViewController()
-        navigationController?.pushViewController(profileVC, animated: true)
+        var isCorrectLoginText = false
+        var isCorrectPasswordText = false
+        
+        if logInTextField.text == "" || logInTextField.text == nil || logInTextField.text != login || isValidEmail(logInTextField.text!) == false {
+            logInTextField.layer.borderColor = UIColor.red.cgColor
+            logInTextField.layer.borderWidth = 1
+            logInTextField.text = ""
+            logInTextField.attributedPlaceholder = NSAttributedString(
+                string: "Login in incorrect",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
+        }
+        else{
+            isCorrectLoginText = true
+            logInTextField.layer.borderColor = UIColor.lightGray.cgColor
+            logInTextField.layer.borderWidth = 0.5
+        }
+        
+        if passwordTextField.text!.count < 6 {
+            passwordTextField.text = ""
+            passwordTextField.attributedPlaceholder = NSAttributedString(
+                string: "Нужно больше 5 символов в пароле",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
+        }
+        
+        if passwordTextField.text == "" || passwordTextField.text == nil || passwordTextField.text != password {
+            passwordTextField.layer.borderColor = UIColor.red.cgColor
+            passwordTextField.layer.borderWidth = 1
+            passwordTextField.text = ""
+            passwordTextField.attributedPlaceholder = NSAttributedString(
+                string: "Password is incorrect",
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.red]
+            )
+        }
+        else{
+            isCorrectPasswordText = true
+            passwordTextField.layer.borderColor = UIColor.lightGray.cgColor
+            passwordTextField.layer.borderWidth = 0.5
+        }
+        
+        if isCorrectLoginText == true && isCorrectPasswordText == true {
+            let profileVC = ProfileViewController()
+            navigationController?.pushViewController(profileVC, animated: true)
+        }
+        else{
+            let alert = UIAlertController(title: "Неверные данные!", message: "Вы ввели неверный логин или пароль, попробуйте снова", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "Попробовать еще раз", style: .default)
+            alert.addAction(okAction)
+            present(alert, animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -106,15 +165,15 @@ class LogInViewController: UIViewController {
             let keyboardRect = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRect.height
             
-            let loginButtonBottomPointY = self.logInButton.frame.origin.y + 16
+            let loginButtonBottomPointY = self.logInButton.frame.origin.y + 50
             let keyboardOriginY = self.view.frame.height - keyboardHeight
             
-            let yOffset = keyboardOriginY < loginButtonBottomPointY ? loginButtonBottomPointY - keyboardOriginY + 16 : 0
+            let yOffset = keyboardOriginY < loginButtonBottomPointY ? loginButtonBottomPointY - keyboardOriginY + 45 : 0
             
             self.scrollView.contentOffset = CGPoint(x: 0, y: yOffset)
         }
     }
-     
+    
     @objc private func kbdHide() {
         self.scrollView.contentOffset = .zero
     }
@@ -148,14 +207,14 @@ class LogInViewController: UIViewController {
             logInTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             logInTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             logInTextField.heightAnchor.constraint(equalToConstant: 50),
-           
+            
             passwordTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             passwordTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             passwordTextField.topAnchor.constraint(equalTo: logInTextField.bottomAnchor),
             passwordTextField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             passwordTextField.heightAnchor.constraint(equalToConstant: 50),
-
-            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: constraint),
+            
+            logInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 5),
             logInButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: constraint),
             logInButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -constraint),
             logInButton.heightAnchor.constraint(equalToConstant: 50),
@@ -196,19 +255,19 @@ extension LogInViewController: UITextFieldDelegate {
 
 // MARK: - UIColor Hex-code
 extension UIColor {
-   convenience init(red: Int, green: Int, blue: Int) {
-       assert(red >= 0 && red <= 255, "Invalid red component")
-       assert(green >= 0 && green <= 255, "Invalid green component")
-       assert(blue >= 0 && blue <= 255, "Invalid blue component")
-
-       self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
-   }
-
-   convenience init(rgb: Int) {
-       self.init(
-           red: (rgb >> 16) & 0xFF,
-           green: (rgb >> 8) & 0xFF,
-           blue: rgb & 0xFF
-       )
-   }
+    convenience init(red: Int, green: Int, blue: Int) {
+        assert(red >= 0 && red <= 255, "Invalid red component")
+        assert(green >= 0 && green <= 255, "Invalid green component")
+        assert(blue >= 0 && blue <= 255, "Invalid blue component")
+        
+        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: 1.0)
+    }
+    
+    convenience init(rgb: Int) {
+        self.init(
+            red: (rgb >> 16) & 0xFF,
+            green: (rgb >> 8) & 0xFF,
+            blue: rgb & 0xFF
+        )
+    }
 }
