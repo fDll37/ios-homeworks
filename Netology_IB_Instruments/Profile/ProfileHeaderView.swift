@@ -161,8 +161,7 @@ class ProfileHeaderView: UIView {
             setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -constraint)
         ])
     }
-    
-    
+
     private func setupGestures() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
         avatarImageView.isUserInteractionEnabled = true
@@ -217,6 +216,5 @@ class ProfileHeaderView: UIView {
                 layoutIfNeeded()
             }
         }
-    }
-    
+    } 
 }
